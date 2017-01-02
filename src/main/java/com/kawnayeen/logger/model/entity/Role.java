@@ -1,4 +1,4 @@
-package com.kawnayeen.logger.model;
+package com.kawnayeen.logger.model.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

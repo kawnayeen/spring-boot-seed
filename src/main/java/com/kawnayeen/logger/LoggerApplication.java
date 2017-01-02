@@ -1,7 +1,7 @@
 package com.kawnayeen.logger;
 
-import com.kawnayeen.logger.model.Account;
-import com.kawnayeen.logger.model.Role;
+import com.kawnayeen.logger.model.entity.Account;
+import com.kawnayeen.logger.model.entity.Role;
 import com.kawnayeen.logger.model.RoleConstant;
 import com.kawnayeen.logger.repository.AccountRepository;
 import com.kawnayeen.logger.repository.RoleRepository;
@@ -42,7 +42,7 @@ public class LoggerApplication {
 			firstAccount.setPassword(passwordEncoder.encode("anan"));
 			firstAccount.getRoles().add(user);
 			accountRepository.save(firstAccount);
-			System.out.println(firstAccount.toString());
+			//System.out.println(firstAccount.toString());
 
 			Account secondAccount = new Account();
 			secondAccount.setUsername("Kamarul");
@@ -50,7 +50,7 @@ public class LoggerApplication {
 			secondAccount.getRoles().add(user);
 			secondAccount.getRoles().add(admin);
 			accountRepository.save(secondAccount);
-			System.out.println(secondAccount.toString());
+			//System.out.println(secondAccount.toString());
 		};
 	}
 }

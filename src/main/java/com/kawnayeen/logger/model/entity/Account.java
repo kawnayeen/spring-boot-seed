@@ -1,4 +1,4 @@
-package com.kawnayeen.logger.model;
+package com.kawnayeen.logger.model.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -36,6 +36,17 @@ public class Account {
     private Collection<Role> roles = new ArrayList<>();
 
     public Account() {
+    }
+
+    public Account(Account account){
+        id = account.getId();
+        username = account.getUsername();
+        password = account.getPassword();
+        enabled = account.isEnabled();
+        credentialExpired = account.isCredentialExpired();
+        expired = account.isExpired();
+        locked = account.isLocked();
+        roles = account.getRoles();
     }
 
     public Long getId() {

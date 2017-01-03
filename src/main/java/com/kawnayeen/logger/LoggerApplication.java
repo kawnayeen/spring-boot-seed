@@ -54,7 +54,6 @@ public class LoggerApplication {
 			firstAccount.setPassword(passwordEncoder.encode("anan"));
 			firstAccount.getRoles().add(user);
 			accountRepository.save(firstAccount);
-			//System.out.println(firstAccount.toString());
 
 			Account secondAccount = new Account();
 			secondAccount.setUsername("Kamarul");
@@ -62,7 +61,6 @@ public class LoggerApplication {
 			secondAccount.getRoles().add(user);
 			secondAccount.getRoles().add(admin);
 			accountRepository.save(secondAccount);
-			//System.out.println(secondAccount.toString());
 		};
 	}
 }

@@ -27,12 +27,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         String authHeader = request.getHeader(AUTH_HEADER);
         if(authHeader!=null) {
-            authHeader = authHeader.replace(TOKEN_PREFIX, "");
-            LoggerUser loggerUser = jwtUtil.getLoggerUser(authHeader);
-            if (loggerUser != null) {
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(loggerUser, null, loggerUser.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+            if(authHeader.startsWith(TOKEN_PREFIX)) {
+                authHeader = authHeader.replace(TOKEN_PREFIX, "");
+                LoggerUser loggerUser = jwtUtil.getLoggerUser(authHeader);
+                if (loggerUser != null) {
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(loggerUser, null, loggerUser.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }else{
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                    return;
+                }
             }
         }
         chain.doFilter(request,response);

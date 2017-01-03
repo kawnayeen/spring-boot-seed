@@ -22,6 +22,6 @@ public class AccountUserDetailsService implements UserDetailsService {
         Account account = accountService.findByUsername(username);
         if(account==null)
             return null;
-        return new LoggerUser(account);
+        return new LoggerUser(account,false);
     }
 }

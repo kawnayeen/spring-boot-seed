@@ -15,9 +15,11 @@ import java.util.Collection;
 public class LoggerUser extends Account implements UserDetails{
 
     Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+    boolean tokenAuthenticated;
 
-    public LoggerUser(Account account) {
+    public LoggerUser(Account account, boolean tokenAuthenticated) {
         super(account);
+        this.tokenAuthenticated = tokenAuthenticated;
         for (Role role:getRoles()){
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getCode()));
         }
@@ -41,5 +43,9 @@ public class LoggerUser extends Account implements UserDetails{
     @Override
     public boolean isCredentialsNonExpired() {
         return !isCredentialExpired();
+    }
+
+    public boolean isTokenAuthenticated() {
+        return tokenAuthenticated;
     }
 }

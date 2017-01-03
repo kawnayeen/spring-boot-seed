@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
  */
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private BasicAuthProvider basicAuthProvider;
 
@@ -26,29 +26,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     private JwtAuthenticationFilter authenticationFilter;
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth){
+    public void configureGlobal(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(basicAuthProvider);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
-//        http.csrf().disable()
-//                .antMatcher("/api/**")
-//                .authorizeRequests()
-//                .anyRequest()
-//                .hasRole(RoleConstant.USER)
-//                .and()
-//                .httpBasic()
-//                .and()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        // @formatter:on
-
         http
                 .csrf().disable().httpBasic().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/**").hasRole(RoleConstant.USER);
+                .authorizeRequests().anyRequest().authenticated();
+        // @formatter:on
 
         http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

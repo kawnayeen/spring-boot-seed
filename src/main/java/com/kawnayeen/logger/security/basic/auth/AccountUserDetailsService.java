@@ -1,4 +1,4 @@
-package com.kawnayeen.logger.security;
+package com.kawnayeen.logger.security.basic.auth;
 
 import com.kawnayeen.logger.model.LoggerUser;
 import com.kawnayeen.logger.model.entity.Account;

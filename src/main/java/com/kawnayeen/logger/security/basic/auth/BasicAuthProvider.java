@@ -1,5 +1,6 @@
-package com.kawnayeen.logger.security;
+package com.kawnayeen.logger.security.basic.auth;
 
+import com.kawnayeen.logger.security.basic.auth.AccountUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

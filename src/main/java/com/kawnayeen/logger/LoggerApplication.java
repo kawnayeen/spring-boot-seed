@@ -5,6 +5,8 @@ import com.kawnayeen.logger.model.entity.Role;
 import com.kawnayeen.logger.model.RoleConstant;
 import com.kawnayeen.logger.repository.AccountRepository;
 import com.kawnayeen.logger.repository.RoleRepository;
+import com.kawnayeen.logger.security.token.auth.JwtAuthenticationFilter;
+import com.kawnayeen.logger.security.token.auth.JwtUtil;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,6 +24,16 @@ public class LoggerApplication {
 	@Bean
 	public PasswordEncoder passwordEncoder(){
 		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public JwtAuthenticationFilter tokenAuthFilter() throws Exception{
+		return new JwtAuthenticationFilter();
+	}
+
+	@Bean
+	public JwtUtil tokenUtil(){
+		return new JwtUtil();
 	}
 
 	@Bean

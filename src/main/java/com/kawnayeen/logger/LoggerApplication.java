@@ -1,5 +1,6 @@
 package com.kawnayeen.logger;
 
+import com.google.common.util.concurrent.RateLimiter;
 import com.kawnayeen.logger.model.entity.Account;
 import com.kawnayeen.logger.model.entity.Role;
 import com.kawnayeen.logger.model.RoleConstant;
@@ -18,6 +19,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class LoggerApplication {
 
 	public static void main(String[] args) {
+		RateLimiter limiter = RateLimiter.create(1.0);
+		for(int i=0;i<10;i++){
+			if(limiter.tryAcquire()) {
+				limiter.acquire();
+				System.out.println("hi :)");
+			}
+		}
 		SpringApplication.run(LoggerApplication.class, args);
 	}
 

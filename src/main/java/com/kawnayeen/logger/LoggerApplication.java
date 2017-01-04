@@ -1,17 +1,18 @@
 package com.kawnayeen.logger;
 
-import com.google.common.util.concurrent.RateLimiter;
+import com.kawnayeen.logger.model.RoleConstant;
 import com.kawnayeen.logger.model.entity.Account;
 import com.kawnayeen.logger.model.entity.Role;
-import com.kawnayeen.logger.model.RoleConstant;
 import com.kawnayeen.logger.repository.AccountRepository;
 import com.kawnayeen.logger.repository.RoleRepository;
 import com.kawnayeen.logger.security.token.auth.JwtAuthenticationFilter;
 import com.kawnayeen.logger.security.token.auth.JwtUtil;
+import com.kawnayeen.logger.security.token.auth.ratelimit.RateLimiter;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -19,13 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class LoggerApplication {
 
 	public static void main(String[] args) {
-		RateLimiter limiter = RateLimiter.create(1.0);
-		for(int i=0;i<10;i++){
-			if(limiter.tryAcquire()) {
-				limiter.acquire();
-				System.out.println("hi :)");
-			}
-		}
 		SpringApplication.run(LoggerApplication.class, args);
 	}
 

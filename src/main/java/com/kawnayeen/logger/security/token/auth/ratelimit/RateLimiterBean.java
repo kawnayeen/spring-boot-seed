@@ -32,7 +32,7 @@ public class RateLimiterBean implements RateLimiter {
         if(redisTemplate.hasKey(key)){
             valueOps.increment(key,1);
             int numberOfRequest = Integer.parseInt(valueOps.get(key));
-            if(numberOfRequest<=3)
+            if(numberOfRequest<=10)
                 return true;
             else
                 return false;

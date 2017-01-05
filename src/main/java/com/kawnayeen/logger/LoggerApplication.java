@@ -11,11 +11,15 @@ import com.kawnayeen.logger.security.token.auth.ratelimit.RateLimiter;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+@EnableCaching
 @SpringBootApplication
 public class LoggerApplication {
 
@@ -34,8 +38,8 @@ public class LoggerApplication {
 	}
 
 	@Bean
-	public JwtUtil tokenUtil(){
-		return new JwtUtil();
+	GuavaCacheManager cacheManager(){
+		return new GuavaCacheManager();
 	}
 
 	@Bean

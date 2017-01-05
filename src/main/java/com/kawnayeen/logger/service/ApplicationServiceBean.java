@@ -3,6 +3,7 @@ package com.kawnayeen.logger.service;
 import com.kawnayeen.logger.model.entity.Application;
 import com.kawnayeen.logger.repository.ApplicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,6 +23,7 @@ public class ApplicationServiceBean implements ApplicationService {
     }
 
     @Override
+    @Cacheable(value = "application",key = "#applicationId")
     public Application findByApplicationId(String applicationId) {
         return applicationRepository.findByApplicationId(applicationId);
     }

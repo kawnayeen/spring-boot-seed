@@ -68,10 +68,12 @@ public class LoggingResource {
         application.setApplicationId(stringUtility.randomString());
         application.setApplicationSecret(stringUtility.randomString());
         application.setAccount(account);
-        System.out.println(application.toString());
-        application = applicationService.create(application);
-        System.out.println(application.toString());
-        return new ResponseEntity<>(application,HttpStatus.CREATED);
+        try {
+            application = applicationService.create(application);
+            return new ResponseEntity<>(application, HttpStatus.CREATED);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @TokenAuthentication
@@ -87,9 +89,12 @@ public class LoggingResource {
         log.setLogger(logInfo.getLogger());
         log.setLevel(logInfo.getLogLevel());
         log.setMessage(logInfo.getMessage());
-        logService.create(log);
-        System.out.println(log.toString());
-        return new ResponseEntity<>(Collections.singletonMap("success",false),HttpStatus.OK);
+        try {
+            logService.create(log);
+            return new ResponseEntity<>(Collections.singletonMap("success", false), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @TokenAuthentication

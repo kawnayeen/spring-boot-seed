@@ -9,6 +9,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.*;
@@ -16,6 +17,7 @@ import java.util.*;
 /**
  * Created by kawnayeen on 1/3/17.
  */
+@Service
 public class JwtUtil {
 
     private static final String ISSUER = "LoggerApplication";

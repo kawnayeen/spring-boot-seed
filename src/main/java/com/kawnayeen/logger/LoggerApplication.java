@@ -18,8 +18,10 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableCaching
+@EnableTransactionManagement
 @SpringBootApplication
 public class LoggerApplication {
 

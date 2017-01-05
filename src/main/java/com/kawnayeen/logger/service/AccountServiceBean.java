@@ -15,4 +15,9 @@ public class AccountServiceBean implements AccountService{
     public Account findByUsername(String username) {
         return accountRepository.findByUsername(username);
     }
+
+    @Override
+    public Account findOne(Long id) {
+        return accountRepository.findOne(id);
+    }
 }

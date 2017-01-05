@@ -1,5 +1,7 @@
 package com.kawnayeen.logger.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -16,14 +18,22 @@ public class Account {
     private Long id;
     @NotNull
     private String username;
+    @JsonIgnore
     @NotNull
     private String password;
+    @JsonIgnore
     @NotNull
     private boolean enabled = true;
+
+    @JsonIgnore
     @NotNull
     private boolean credentialExpired = false;
+
+    @JsonIgnore
     @NotNull
     private boolean expired = false;
+
+    @JsonIgnore
     @NotNull
     private boolean locked = false;
 
@@ -34,6 +44,10 @@ public class Account {
             inverseJoinColumns = @JoinColumn(name = "roleId", referencedColumnName = "id")
     )
     private Collection<Role> roles = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+    private Collection<Application> applications = new ArrayList<>();
 
     public Account() {
     }
@@ -111,6 +125,14 @@ public class Account {
 
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
+    }
+
+    public Collection<Application> getApplications() {
+        return applications;
+    }
+
+    public void setApplications(Collection<Application> applications) {
+        this.applications = applications;
     }
 
     @Override

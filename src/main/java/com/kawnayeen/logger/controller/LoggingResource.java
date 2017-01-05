@@ -1,13 +1,19 @@
 package com.kawnayeen.logger.controller;
 
 import com.kawnayeen.logger.model.LoggerUser;
+import com.kawnayeen.logger.model.entity.Account;
 import com.kawnayeen.logger.model.entity.Application;
+import com.kawnayeen.logger.model.entity.Log;
 import com.kawnayeen.logger.model.housekeeping.DisplayName;
 import com.kawnayeen.logger.model.housekeeping.LogInfo;
 import com.kawnayeen.logger.security.annotation.BasicAuthentication;
 import com.kawnayeen.logger.security.annotation.CurrentUser;
 import com.kawnayeen.logger.security.annotation.TokenAuthentication;
 import com.kawnayeen.logger.security.token.auth.JwtUtil;
+import com.kawnayeen.logger.service.AccountService;
+import com.kawnayeen.logger.service.ApplicationService;
+import com.kawnayeen.logger.service.LogService;
+import com.kawnayeen.logger.service.StringUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +34,14 @@ public class LoggingResource {
 
     @Autowired
     JwtUtil jwtUtil;
+    @Autowired
+    StringUtility stringUtility;
+    @Autowired
+    AccountService accountService;
+    @Autowired
+    ApplicationService applicationService;
+    @Autowired
+    LogService logService;
 
     @BasicAuthentication
     @RequestMapping(
@@ -48,8 +62,16 @@ public class LoggingResource {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Application> createNewApplication(@CurrentUser LoggerUser loggerUser, @RequestBody DisplayName displayName) {
-        System.out.println(displayName.toString());
-        return new ResponseEntity<Application>(HttpStatus.CREATED);
+        Account account = accountService.findOne(loggerUser.getId());
+        Application application = new Application();
+        application.setDisplayName(displayName.getDisplayName());
+        application.setApplicationId(stringUtility.randomString());
+        application.setApplicationSecret(stringUtility.randomString());
+        application.setAccount(account);
+        System.out.println(application.toString());
+        application = applicationService.create(application);
+        System.out.println(application.toString());
+        return new ResponseEntity<>(application,HttpStatus.CREATED);
     }
 
     @TokenAuthentication
@@ -60,7 +82,23 @@ public class LoggingResource {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Map<String, Boolean>> addNewLog(@CurrentUser LoggerUser loggerUser, @RequestBody LogInfo logInfo) {
-        System.out.println(logInfo.toString());
+        Log log = new Log();
+        log.setApplication(applicationService.findByApplicationId(logInfo.getApplicationId()));
+        log.setLogger(logInfo.getLogger());
+        log.setLevel(logInfo.getLogLevel());
+        log.setMessage(logInfo.getMessage());
+        logService.create(log);
+        System.out.println(log.toString());
         return new ResponseEntity<>(Collections.singletonMap("success",false),HttpStatus.OK);
+    }
+
+    @TokenAuthentication
+    @RequestMapping(
+            value = "/profile",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Account> getAccountDetails(@CurrentUser LoggerUser loggerUser){
+        return new ResponseEntity<>(accountService.findOne(loggerUser.getId()),HttpStatus.OK);
     }
 }

@@ -7,6 +7,7 @@ import com.kawnayeen.logger.model.entity.Account;
  */
 public interface AccountService {
     Account findByUsername(String username);
+    Account findOne(Long id);
 }
 
 

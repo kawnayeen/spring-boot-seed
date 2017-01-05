@@ -1,5 +1,6 @@
 package com.kawnayeen.logger.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import java.util.Collection;
 public class Application {
     @Id
     @GeneratedValue
+    @JsonIgnore
     private Long id;
     @NotNull
     @Length(max = 32)
@@ -27,8 +29,14 @@ public class Application {
     @NotNull
     @Length(max = 32)
     private String displayName;
+
     @OneToMany(mappedBy = "application")
     private Collection<Log> logs = new ArrayList<>();
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private Account account;
 
     public Application() {
     }
@@ -63,5 +71,31 @@ public class Application {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public Collection<Log> getLogs() {
+        return logs;
+    }
+
+    public void setLogs(Collection<Log> logs) {
+        this.logs = logs;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    @Override
+    public String toString() {
+        return "Application{" +
+                "id=" + id +
+                ", applicationId='" + applicationId + '\'' +
+                ", applicationSecret='" + applicationSecret + '\'' +
+                ", displayName='" + displayName + '\'' +
+                '}';
     }
 }

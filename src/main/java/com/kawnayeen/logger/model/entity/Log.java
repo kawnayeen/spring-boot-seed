@@ -1,5 +1,6 @@
 package com.kawnayeen.logger.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kawnayeen.logger.model.LogLevel;
 import org.hibernate.validator.constraints.Length;
 
@@ -14,6 +15,8 @@ public class Log {
     @Id
     @GeneratedValue
     private Long id;
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "APP_ID")
     private Application application;
@@ -67,5 +70,15 @@ public class Log {
 
     public void setLogger(String logger) {
         this.logger = logger;
+    }
+
+    @Override
+    public String toString() {
+        return "Log{" +
+                "id=" + id +
+                ", logger='" + logger + '\'' +
+                ", level=" + level +
+                ", message='" + message + '\'' +
+                '}';
     }
 }

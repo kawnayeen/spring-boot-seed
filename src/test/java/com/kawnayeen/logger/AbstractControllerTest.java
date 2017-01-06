@@ -9,6 +9,7 @@ import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfig
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
@@ -37,5 +38,9 @@ public class AbstractControllerTest extends AbstractTest{
             throws JsonParseException, JsonMappingException, IOException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(json, clazz);
+    }
+
+    protected String generateBasicAuth(String username, String password){
+        return "Basic "+ Base64Utils.encodeToString((username+":"+password).getBytes());
     }
 }

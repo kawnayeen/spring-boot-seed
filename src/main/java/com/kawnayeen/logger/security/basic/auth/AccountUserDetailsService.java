@@ -21,7 +21,7 @@ public class AccountUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = accountService.findByUsername(username);
         if(account==null)
-            return null;
+            throw new UsernameNotFoundException("No user found with username: "+username);
         return new LoggerUser(account,false);
     }
 }

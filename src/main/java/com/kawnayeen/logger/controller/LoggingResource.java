@@ -91,7 +91,7 @@ public class LoggingResource {
         log.setMessage(logInfo.getMessage());
         try {
             logService.create(log);
-            return new ResponseEntity<>(Collections.singletonMap("success", false), HttpStatus.OK);
+            return new ResponseEntity<>(Collections.singletonMap("success", true), HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

@@ -1,4 +1,4 @@
-package com.kawnayeen.logger.security;
+package com.kawnayeen.logger.config;
 
 import com.kawnayeen.logger.model.RoleConstant;
 import com.kawnayeen.logger.security.basic.auth.BasicAuthProvider;

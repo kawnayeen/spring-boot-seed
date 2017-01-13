@@ -1,7 +1,6 @@
 package com.kawnayeen.logger.security.token.auth;
 
 import com.kawnayeen.logger.model.LoggerUser;
-import com.kawnayeen.logger.security.token.auth.ratelimit.RateLimiter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,9 +23,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @Autowired
-    private RateLimiter rateLimiter;
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         String authHeader = request.getHeader(AUTH_HEADER);
@@ -35,14 +31,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 authHeader = authHeader.replace(TOKEN_PREFIX, "");
                 LoggerUser loggerUser = jwtUtil.getLoggerUser(authHeader);
                 if (loggerUser != null) {
-                    if (rateLimiter.willProceed(authHeader)) {
-                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(loggerUser, null, loggerUser.getAuthorities());
-                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                    } else {
-                        response.sendError(HttpServletResponse.SC_FORBIDDEN, "Rate Limit Exceeded");
-                        return;
-                    }
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(loggerUser, null, loggerUser.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
                 } else {
                     response.sendError(HttpServletResponse.SC_FORBIDDEN);
                     return;

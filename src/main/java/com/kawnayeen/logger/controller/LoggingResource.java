@@ -8,6 +8,7 @@ import com.kawnayeen.logger.model.housekeeping.DisplayName;
 import com.kawnayeen.logger.model.housekeeping.LogInfo;
 import com.kawnayeen.logger.security.annotation.BasicAuthentication;
 import com.kawnayeen.logger.security.annotation.CurrentUser;
+import com.kawnayeen.logger.security.annotation.RateLimit;
 import com.kawnayeen.logger.security.annotation.TokenAuthentication;
 import com.kawnayeen.logger.security.token.auth.JwtUtil;
 import com.kawnayeen.logger.service.AccountService;
@@ -49,7 +50,7 @@ public class LoggingResource {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Map<String,String>> helloWorld(@CurrentUser LoggerUser loggerUser) {
+    public ResponseEntity<Map<String,String>> auth(@CurrentUser LoggerUser loggerUser) {
         String accessToken = jwtUtil.generateToken(loggerUser);
         return new ResponseEntity<>(Collections.singletonMap("accessToken",accessToken), HttpStatus.OK);
     }
@@ -76,6 +77,7 @@ public class LoggingResource {
         }
     }
 
+    @RateLimit(value = 3)
     @TokenAuthentication
     @RequestMapping(
             value = "/log",
@@ -83,7 +85,7 @@ public class LoggingResource {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Map<String, Boolean>> addNewLog(@CurrentUser LoggerUser loggerUser, @RequestBody LogInfo logInfo) {
+    public ResponseEntity<Map<String, Object>> addNewLog(@CurrentUser LoggerUser loggerUser, @RequestBody LogInfo logInfo) {
         Log log = new Log();
         log.setApplication(applicationService.findByApplicationId(logInfo.getApplicationId()));
         log.setLogger(logInfo.getLogger());

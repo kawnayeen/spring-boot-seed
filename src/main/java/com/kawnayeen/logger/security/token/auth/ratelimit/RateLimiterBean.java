@@ -25,14 +25,14 @@ public class RateLimiterBean implements RateLimiter {
     }
 
     @Override
-    public boolean willProceed(String token) {
+    public boolean willProceed(String token, int ratePerMinute) {
         Calendar calendar = Calendar.getInstance();
         int currentMinutes = calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE);
         String key = currentMinutes+token;
         if(redisTemplate.hasKey(key)){
             valueOps.increment(key,1);
             int numberOfRequest = Integer.parseInt(valueOps.get(key));
-            if(numberOfRequest<=10)
+            if(numberOfRequest<=ratePerMinute)
                 return true;
             else
                 return false;

@@ -59,6 +59,6 @@ public class JwtUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new LoggerUser(account,true);
+        return new LoggerUser(account,jsonWebToken);
     }
 }

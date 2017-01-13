@@ -2,6 +2,8 @@ package com.kawnayeen.logger.service;
 
 import com.kawnayeen.logger.model.entity.Application;
 import com.kawnayeen.logger.repository.ApplicationRepository;
+import com.kawnayeen.logger.service.exception.ApplicationNotFoundException;
+import com.kawnayeen.logger.service.exception.InvalidApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -22,13 +24,20 @@ public class ApplicationServiceBean implements ApplicationService {
     @Transactional(propagation = Propagation.REQUIRED)
     public Application create(Application application) {
         if(application.getId()!=null)
-            return null;
-        return applicationRepository.save(application);
+            throw new InvalidApplicationException("Can not preset application id");
+        try {
+            return applicationRepository.save(application);
+        }catch (Exception e){
+            throw new InvalidApplicationException();
+        }
     }
 
     @Override
     @Cacheable(value = "application",key = "#applicationId")
     public Application findByApplicationId(String applicationId) {
-        return applicationRepository.findByApplicationId(applicationId);
+        Application application = applicationRepository.findByApplicationId(applicationId);
+        if(application==null)
+            throw new ApplicationNotFoundException();
+        return application;
     }
 }

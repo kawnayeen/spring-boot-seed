@@ -24,17 +24,13 @@ public class RateLimitAspect {
     private RateLimiter rateLimiter;
 
     @Around("@annotation(rateLimit) && args(loggerUser,..)")
-    public Object checkRateLimitAnnotation(ProceedingJoinPoint proceedingJoinPoint, RateLimit rateLimit, LoggerUser loggerUser){
-        if(rateLimiter.willProceed(loggerUser.getAccessToken(),rateLimit.value())){
-            try {
-                return proceedingJoinPoint.proceed();
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
-        }else{
-            return new ResponseEntity(Collections.singletonMap("error","rate limit exceeded"),HttpStatus.FORBIDDEN);
+    public Object checkRateLimitAnnotation(ProceedingJoinPoint proceedingJoinPoint, RateLimit rateLimit, LoggerUser loggerUser) throws Throwable {
+        if (rateLimiter.willProceed(loggerUser.getAccessToken(), rateLimit.value())) {
+            return proceedingJoinPoint.proceed();
+        } else {
+            return new ResponseEntity(Collections.singletonMap("error", "rate limit exceeded"), HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity(Collections.singletonMap("message","I'm sorry :("),HttpStatus.INTERNAL_SERVER_ERROR);
+
     }
 }
 

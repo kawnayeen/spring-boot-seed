@@ -11,10 +11,7 @@ import com.kawnayeen.logger.security.annotation.CurrentUser;
 import com.kawnayeen.logger.security.annotation.RateLimit;
 import com.kawnayeen.logger.security.annotation.TokenAuthentication;
 import com.kawnayeen.logger.security.token.auth.JwtUtil;
-import com.kawnayeen.logger.service.AccountService;
-import com.kawnayeen.logger.service.ApplicationService;
-import com.kawnayeen.logger.service.LogService;
-import com.kawnayeen.logger.service.StringUtility;
+import com.kawnayeen.logger.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -50,9 +47,9 @@ public class LoggingResource {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Map<String,String>> auth(@CurrentUser LoggerUser loggerUser) {
+    public ResponseEntity<Map<String, String>> auth(@CurrentUser LoggerUser loggerUser) {
         String accessToken = jwtUtil.generateToken(loggerUser);
-        return new ResponseEntity<>(Collections.singletonMap("accessToken",accessToken), HttpStatus.OK);
+        return new ResponseEntity<>(Collections.singletonMap("accessToken", accessToken), HttpStatus.OK);
     }
 
     @TokenAuthentication
@@ -69,12 +66,8 @@ public class LoggingResource {
         application.setApplicationId(stringUtility.randomString());
         application.setApplicationSecret(stringUtility.randomString());
         application.setAccount(account);
-        try {
-            application = applicationService.create(application);
-            return new ResponseEntity<>(application, HttpStatus.CREATED);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(applicationService.create(application), HttpStatus.CREATED);
+
     }
 
     @RateLimit(value = 3)
@@ -91,12 +84,8 @@ public class LoggingResource {
         log.setLogger(logInfo.getLogger());
         log.setLevel(logInfo.getLogLevel());
         log.setMessage(logInfo.getMessage());
-        try {
-            logService.create(log);
-            return new ResponseEntity<>(Collections.singletonMap("success", true), HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        logService.create(log);
+        return new ResponseEntity<>(Collections.singletonMap("success", true), HttpStatus.OK);
     }
 
     @TokenAuthentication
@@ -105,7 +94,7 @@ public class LoggingResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Account> getAccountDetails(@CurrentUser LoggerUser loggerUser){
-        return new ResponseEntity<>(accountService.findOne(loggerUser.getId()),HttpStatus.OK);
+    public ResponseEntity<Account> getAccountDetails(@CurrentUser LoggerUser loggerUser) {
+        return new ResponseEntity<>(accountService.findOne(loggerUser.getId()), HttpStatus.OK);
     }
 }

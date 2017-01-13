@@ -1,17 +1,20 @@
 package com.kawnayeen.logger.controller;
 
+import com.kawnayeen.logger.misc.StringUtility;
 import com.kawnayeen.logger.model.LoggerUser;
 import com.kawnayeen.logger.model.entity.Account;
 import com.kawnayeen.logger.model.entity.Application;
 import com.kawnayeen.logger.model.entity.Log;
 import com.kawnayeen.logger.model.housekeeping.DisplayName;
 import com.kawnayeen.logger.model.housekeeping.LogInfo;
+import com.kawnayeen.logger.model.service.AccountService;
+import com.kawnayeen.logger.model.service.ApplicationService;
+import com.kawnayeen.logger.model.service.LogService;
 import com.kawnayeen.logger.security.annotation.BasicAuthentication;
 import com.kawnayeen.logger.security.annotation.CurrentUser;
 import com.kawnayeen.logger.security.annotation.RateLimit;
 import com.kawnayeen.logger.security.annotation.TokenAuthentication;
 import com.kawnayeen.logger.security.token.auth.JwtUtil;
-import com.kawnayeen.logger.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

@@ -2,6 +2,7 @@ package com.kawnayeen.logger.service;
 
 import com.kawnayeen.logger.AbstractTest;
 import com.kawnayeen.logger.model.entity.Account;
+import com.kawnayeen.logger.model.service.AccountService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.kawnayeen.logger.service;
+package com.kawnayeen.logger.model.service;
 
 import com.kawnayeen.logger.model.entity.Log;
 

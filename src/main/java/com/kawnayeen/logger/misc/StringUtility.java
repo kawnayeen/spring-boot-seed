@@ -1,4 +1,4 @@
-package com.kawnayeen.logger.service;
+package com.kawnayeen.logger.misc;
 
 import org.springframework.stereotype.Service;
 

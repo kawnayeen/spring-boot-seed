@@ -1,4 +1,4 @@
-package com.kawnayeen.logger.service.exception;
+package com.kawnayeen.logger.model.service.exception;
 
 /**
  * Created by kawnayeen on 1/13/17.

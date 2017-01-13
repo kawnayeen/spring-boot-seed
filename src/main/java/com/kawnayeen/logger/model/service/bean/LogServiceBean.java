@@ -1,8 +1,9 @@
-package com.kawnayeen.logger.service;
+package com.kawnayeen.logger.model.service.bean;
 
 import com.kawnayeen.logger.model.entity.Log;
+import com.kawnayeen.logger.model.service.LogService;
 import com.kawnayeen.logger.repository.LogRepository;
-import com.kawnayeen.logger.service.exception.InvalidLogException;
+import com.kawnayeen.logger.model.service.exception.InvalidLogException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -12,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by kawnayeen on 1/5/17.
  */
 @Service
-public class LogServiceBean implements LogService{
+public class LogServiceBean implements LogService {
     @Autowired
     private LogRepository logRepository;
 

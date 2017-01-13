@@ -2,7 +2,7 @@ package com.kawnayeen.logger.security.basic.auth;
 
 import com.kawnayeen.logger.model.LoggerUser;
 import com.kawnayeen.logger.model.entity.Account;
-import com.kawnayeen.logger.service.AccountService;
+import com.kawnayeen.logger.model.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

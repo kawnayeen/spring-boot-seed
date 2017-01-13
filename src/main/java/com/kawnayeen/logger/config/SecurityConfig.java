@@ -1,6 +1,5 @@
 package com.kawnayeen.logger.config;
 
-import com.kawnayeen.logger.model.RoleConstant;
 import com.kawnayeen.logger.security.basic.auth.BasicAuthProvider;
 import com.kawnayeen.logger.security.token.auth.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**
  * Created by kawnayeen on 1/2/17.

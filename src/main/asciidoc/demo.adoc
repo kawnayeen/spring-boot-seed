@@ -1,5 +1,68 @@
 = Super Cool Logger Service
+Kamarul Kawnayeen;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlink:
 
+[introduction]
+= Introduction
+RESTful services to manage all of your application logs at cloud.
+
+[[overview]]
+= Overview
+This section will discuss the cross cutting concerns of all the services.
+
+[[overview-http-verbs]]
+== HTTP Verbs
+Super Cool Logger Service tries to adhere as closely as possible to standard
+HTTP and REST conventions in its use of HTTP verbs.
+|===
+| Verb | Usage
+
+|'GET'
+| Used to retrieve a resource
+
+| 'POST'
+| Used to create a new resource
+|===
+
+[[overview-http-status-cods]]
+== HTTP status codes
+Super Cool Logger Service tries to adhere as closely as possible to standard
+HTTP and REST conventions in its use of HTTP status codes.
+
+|===
+| Status code | Usage
+
+| '200 OK'
+| Standard response for successful HTTP requests.
+  The actual response will deped on the request method used.
+  In a GET request, the response will contains an entity corresponding to requested resource
+
+| '201 Created'
+| The request has been fulfilled and resulted in a new source being created
+
+| '401 Unauthorized'
+| In BASIC authentication scheme, return in case of invalid credential
+
+| '403 Forbidden'
+| If token verification failed or rate limit exceeded
+|===
+
+[[services]]
+= Services
+
+[[services-auth]]
+== Auth
+This service is used to authenticate an user with username and password.
+In case of valid credential it will return a JWT token. If credential is
+invalid, it will return 401 Unauthorized
+
+[[services-auth-valid]]
+=== valid credential
 Access the auth service with valid credential:
 
 include::{snippets}/auth-valid-credential/curl-request.adoc[]
@@ -8,6 +71,8 @@ Valid response will be:
 
 include::{snippets}/auth-valid-credential/http-response.adoc[]
 
+[[services-auth-invalid]]
+=== invalid or no credential
 Access the auth service with no credential & invalid credential:
 
 include::{snippets}/auth-no-credential/curl-request.adoc[]
@@ -17,3 +82,34 @@ include::{snippets}/auth-invalid-cred/curl-request.adoc[]
 And the response will be
 
 include::{snippets}/auth-no-credential/http-response.adoc[]
+
+[[register]]
+== Register
+
+This service is used to create a new application for an specific
+user. Enduser need to authenticate himself by providing the jwt token
+received from /auth service.
+
+[[valid-request]]
+=== valid request
+Access the register service with valid token and request body
+include::{snippets}/register-success/http-request.adoc[]
+
+And the response will be
+include::{snippets}/register-success/http-response.adoc[]
+
+[[invalid-req]]
+=== invalid request
+Here's all the invalid requests and their respective response
+
+==== bad token
+Sample Request
+include::{snippets}/register-invalid-token/http-request.adoc[]
+
+And the response will be
+include::{snippets}/register-invalid-token/http-response.adoc[]
+
+==== bad param
+Sample Request with application name longer than 32 character
+include::{snippets}/register-invalid-body/http-request.adoc[]
+include::{snippets}/register-invalid-body/http-response.adoc[]

@@ -21,7 +21,6 @@ import java.io.IOException;
  * Created by kawnayeen on 1/5/17.
  */
 @WebAppConfiguration
-//@ContextConfiguration(classes = TestConfiguration.class)
 public class AbstractControllerTest extends AbstractTest{
 
     protected MockMvc mvc;
@@ -33,6 +32,7 @@ public class AbstractControllerTest extends AbstractTest{
     protected WebApplicationContext webApplicationContext;
 
     protected void setUp() {
+        //this.
         mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .apply(SecurityMockMvcConfigurers.springSecurity())
                 .apply(MockMvcRestDocumentation.documentationConfiguration(this.restDocumentation))
@@ -52,5 +52,9 @@ public class AbstractControllerTest extends AbstractTest{
 
     protected String generateBasicAuth(String username, String password){
         return "Basic "+ Base64Utils.encodeToString((username+":"+password).getBytes());
+    }
+
+    protected String generateTokenAuth(String token){
+        return "Bearer "+token;
     }
 }

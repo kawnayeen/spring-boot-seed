@@ -44,7 +44,19 @@ mvn spring-boot:run
 ```
 
 If you want to stop the server, then enter ```ctlr-C``` 
+
+To generate documentation using rest docs, first run the test code of 
+```LoggingResourceTest.java``` & make sure all necessary ascii docs snippets
+are available at ```target/generated-snippets``` directory. 
  
+Then open the terminal at project root directory and run the following command
+
+```
+mvn prepare-package
+```
+
+You will find the documentation at ```target/generated-docs``` directory
+
 License
 --------
 Licensed under the Apache License, Version 2.0

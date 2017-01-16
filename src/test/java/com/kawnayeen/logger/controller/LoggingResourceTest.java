@@ -1,10 +1,13 @@
 package com.kawnayeen.logger.controller;
 
 import com.kawnayeen.logger.AbstractControllerTest;
+import com.kawnayeen.logger.model.housekeeping.DisplayName;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
+import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
+import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -15,51 +18,103 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class LoggingResourceTest extends AbstractControllerTest {
+
+    private static final String USERNAME = "Anan";
+    private static final String PASSWORD = "anan";
+    private static final String TOKEN = "eyJhbGciOiJIUzI1NiJ9" +
+            ".eyJzdWIiOiJBbmFuIiwianRpIjoiMSIsImlzcyI6IkxvZ2dlckFwcGxpY2F0aW9uIiwiaWF0IjoxNDg0NTQzODc0LCJSb2xlcyI6Ilt7XCJpZFwiOjEsXCJjb2RlXCI6XCJST0xFX1VTRVJcIixcImxhYmVsXCI6XCJVU0VSXCJ9XSJ9" +
+            ".Me41JSTRhkyx2xb0_NHW6URWwFNimCjyu-3-Gvs1C8E";
+    private static final String AUTH = "/auth";
+    private static final String REGISTER = "/register";
+
     @Before
     public void setUp() {
         super.setUp();
     }
 
-
-
     @Test
     public void testAuthWithValidCredential() throws Exception {
-
-        String uri = "/auth";
-        String authorizationData = generateBasicAuth("Anan","anan");
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(uri)
+        String authorizationData = generateBasicAuth(USERNAME, PASSWORD);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(AUTH)
                 .header("Authorization", authorizationData).accept(MediaType.APPLICATION_JSON);
 
         mvc.perform(request)
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcRestDocumentation.document("auth-valid-credential"));
+                .andDo(getDocument("auth-valid-credential"));
     }
 
     @Test
-    public void testAuthWithNoCredential() throws Exception{
-        String uri = "/auth";
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(uri)
+    public void testAuthWithNoCredential() throws Exception {
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(AUTH)
                 .accept(MediaType.APPLICATION_JSON);
-//        MvcResult result = mvc.perform(request).andReturn();
-//        int status = result.getResponse().getStatus();
-//        Assert.assertEquals("failure - expected HTTP status 401",401,status);
-
         mvc.perform(request)
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized())
-                .andDo(MockMvcRestDocumentation.document("auth-no-credential"));
+                .andDo(getDocument("auth-no-credential"));
     }
 
     @Test
-    public void testAuthWithBadCredential() throws Exception{
-        String uri = "/auth";
-        String authorizationData = generateBasicAuth("Jata","jata");
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(uri)
+    public void testAuthWithBadCredential() throws Exception {
+        String authorizationData = generateBasicAuth("Jata", "jata");
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(AUTH)
                 .header("Authorization", authorizationData).accept(MediaType.APPLICATION_JSON);
-//        MvcResult result = mvc.perform(request).andReturn();
-//        int status = result.getResponse().getStatus();
-//        Assert.assertEquals("failure - expected HTTP status 401",401,status);
         mvc.perform(request)
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized())
-                .andDo(MockMvcRestDocumentation.document("auth-invalid-cred"));
+                .andDo(getDocument("auth-invalid-cred"));
+    }
+
+    @Test
+    public void testRegisterWithValidTokenAndRequestBody() throws Exception {
+        String authorizationData = generateTokenAuth(TOKEN);
+        DisplayName displayName = new DisplayName("Test Application");
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(REGISTER)
+                .header("Authorization",authorizationData).accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(mapToJson(displayName));
+
+        mvc.perform(request)
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andDo(getDocument("register-success"));
+    }
+
+
+    @Test
+    public void testRegisterWithInValidToken() throws Exception {
+        String authorizationData = generateTokenAuth("Invalid Token");
+        DisplayName displayName = new DisplayName("Test Application");
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(REGISTER)
+                .header("Authorization",authorizationData).accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(mapToJson(displayName));
+
+        mvc.perform(request)
+                .andExpect(MockMvcResultMatchers.status().isForbidden())
+                .andDo(getDocument("register-invalid-token"));
+    }
+
+
+    @Test
+    public void testRegisterWithInValidRequestBody() throws Exception {
+        String authorizationData = generateTokenAuth(TOKEN);
+        DisplayName displayName = new DisplayName("TestApplicationTestApplicationTestApplicationTestApplicationTestApplication");
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(REGISTER)
+                .header("Authorization",authorizationData).accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(mapToJson(displayName));
+
+        mvc.perform(request)
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andDo(getDocument("register-invalid-body"));
+    }
+
+    RestDocumentationResultHandler getDocument(String identifier){
+        return MockMvcRestDocumentation.
+                document(
+                        identifier,
+                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint())
+                );
     }
 }

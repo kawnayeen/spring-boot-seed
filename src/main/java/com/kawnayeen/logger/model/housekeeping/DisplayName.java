@@ -6,6 +6,14 @@ package com.kawnayeen.logger.model.housekeeping;
 public class DisplayName {
     private String displayName;
 
+    public DisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public DisplayName(){
+
+    }
+
     public String getDisplayName() {
         return displayName;
     }

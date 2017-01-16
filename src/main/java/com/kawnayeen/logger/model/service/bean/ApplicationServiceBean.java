@@ -2,7 +2,7 @@ package com.kawnayeen.logger.model.service.bean;
 
 import com.kawnayeen.logger.model.entity.Application;
 import com.kawnayeen.logger.model.service.ApplicationService;
-import com.kawnayeen.logger.repository.ApplicationRepository;
+import com.kawnayeen.logger.model.repository.ApplicationRepository;
 import com.kawnayeen.logger.model.service.exception.ApplicationNotFoundException;
 import com.kawnayeen.logger.model.service.exception.InvalidApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;

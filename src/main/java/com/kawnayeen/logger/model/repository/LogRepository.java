@@ -1,4 +1,4 @@
-package com.kawnayeen.logger.repository;
+package com.kawnayeen.logger.model.repository;
 
 import com.kawnayeen.logger.model.entity.Log;
 import org.springframework.data.jpa.repository.JpaRepository;

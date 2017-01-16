@@ -21,7 +21,12 @@ Features
 * Cache Management
 * Redis
 * Unit Testing
+* Integration Testing
+* Spring REST Docs
 
+Api Docs
+---------
+Please check [api documentation](http://htmlpreview.github.com/?https://github.com/kawnayeen08/spring-boot-seed/blob/release/target/generated-docs/demo.html) first.
 
 How to Run?
 -----------

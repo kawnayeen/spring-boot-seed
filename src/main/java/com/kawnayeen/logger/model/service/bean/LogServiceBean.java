@@ -2,7 +2,7 @@ package com.kawnayeen.logger.model.service.bean;
 
 import com.kawnayeen.logger.model.entity.Log;
 import com.kawnayeen.logger.model.service.LogService;
-import com.kawnayeen.logger.repository.LogRepository;
+import com.kawnayeen.logger.model.repository.LogRepository;
 import com.kawnayeen.logger.model.service.exception.InvalidLogException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

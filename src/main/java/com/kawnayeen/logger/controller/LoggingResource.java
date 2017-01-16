@@ -70,7 +70,6 @@ public class LoggingResource {
         application.setApplicationSecret(stringUtility.randomString());
         application.setAccount(account);
         return new ResponseEntity<>(applicationService.create(application), HttpStatus.CREATED);
-
     }
 
     @RateLimit(value = 3)

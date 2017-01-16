@@ -1,0 +1,19 @@
+= Super Cool Logger Service
+
+Access the auth service with valid credential:
+
+include::{snippets}/auth-valid-credential/curl-request.adoc[]
+
+Valid response will be:
+
+include::{snippets}/auth-valid-credential/http-response.adoc[]
+
+Access the auth service with no credential & invalid credential:
+
+include::{snippets}/auth-no-credential/curl-request.adoc[]
+
+include::{snippets}/auth-invalid-cred/curl-request.adoc[]
+
+And the response will be
+
+include::{snippets}/auth-no-credential/http-response.adoc[]

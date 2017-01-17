@@ -439,17 +439,28 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#services-auth">Auth</a>
 <ul class="sectlevel2">
-<li><a href="#services-auth-valid">valid credential</a></li>
-<li><a href="#services-auth-invalid">invalid or no credential</a></li>
+<li><a href="#services-auth-valid">Valid credential</a></li>
+<li><a href="#services-auth-invalid">Invalid or no credential</a></li>
 </ul>
 </li>
 <li><a href="#register">Register</a>
 <ul class="sectlevel2">
-<li><a href="#valid-request">valid request</a></li>
-<li><a href="#invalid-req">invalid request</a>
+<li><a href="#register-valid-request">Valid request</a></li>
+<li><a href="#register-invalid-req">Invalid request</a>
 <ul class="sectlevel3">
-<li><a href="#_bad_token">bad token</a></li>
-<li><a href="#_bad_param">bad param</a></li>
+<li><a href="#_bad_token">Bad token</a></li>
+<li><a href="#_bad_param">Bad param</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#log">Log</a>
+<ul class="sectlevel2">
+<li><a href="#log-valid-request">Valid request</a></li>
+<li><a href="#log-invalid-request">Invalid request</a>
+<ul class="sectlevel3">
+<li><a href="#log-invalid-request-app-id">Application id</a></li>
+<li><a href="#log-invalid-request-content-lenght">Content length</a></li>
 </ul>
 </li>
 </ul>
@@ -556,13 +567,13 @@ In case of valid credential it will return a JWT token. If credential is
 invalid, it will return 401 Unauthorized</p>
 </div>
 <div class="sect2">
-<h3 id="services-auth-valid">valid credential</h3>
+<h3 id="services-auth-valid">Valid credential</h3>
 <div class="paragraph">
 <p>Access the auth service with valid credential:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/auth' -i -u 'Anan:anan' -X POST -H 'Accept: application/json'</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/auth' -i -u 'Anan:anan' -X POST -H 'Accept: application/json' -H 'Content-Type: application/json'</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -581,13 +592,13 @@ X-Frame-Options: DENY
 Content-Length: 265
 
 {
-  "accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmFuIiwianRpIjoiMSIsImlzcyI6IkxvZ2dlckFwcGxpY2F0aW9uIiwiaWF0IjoxNDg0NTYzOTA4LCJSb2xlcyI6Ilt7XCJpZFwiOjEsXCJjb2RlXCI6XCJST0xFX1VTRVJcIixcImxhYmVsXCI6XCJVU0VSXCJ9XSJ9.nlgn6FKxbiKOmSMgnTAlf82H2iPHkDWl-qovBDa9x-0"
+  "accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmFuIiwianRpIjoiMSIsImlzcyI6IkxvZ2dlckFwcGxpY2F0aW9uIiwiaWF0IjoxNDg0NjMwNzk4LCJSb2xlcyI6Ilt7XCJpZFwiOjEsXCJjb2RlXCI6XCJST0xFX1VTRVJcIixcImxhYmVsXCI6XCJVU0VSXCJ9XSJ9.2YiG0a5tdc5F1shl7OD3uEgJUnuLOGQEbxiNr_B4Tjw"
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="services-auth-invalid">invalid or no credential</h3>
+<h3 id="services-auth-invalid">Invalid or no credential</h3>
 <div class="paragraph">
 <p>Access the auth service with no credential &amp; invalid credential:</p>
 </div>
@@ -598,7 +609,7 @@ Content-Length: 265
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/auth' -i -u 'Jata:jata' -X POST -H 'Accept: application/json'</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/auth' -i -u 'Jata:jata' -X POST -H 'Accept: application/json' -H 'Content-Type: application/json'</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -624,11 +635,11 @@ X-Frame-Options: DENY</code></pre>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This service is used to create a new application for an specific
-user. Enduser need to authenticate himself by providing the jwt token
+user. End user need to authenticate himself by providing the jwt token
 received from /auth service.</p>
 </div>
 <div class="sect2">
-<h3 id="valid-request">valid request</h3>
+<h3 id="register-valid-request">Valid request</h3>
 <div class="paragraph">
 <p>Access the register service with valid token and request body</p>
 </div>
@@ -662,8 +673,8 @@ X-Frame-Options: DENY
 Content-Length: 172
 
 {
-  "applicationId" : "7885ca2cc19c4eb888343b30640eab0c",
-  "applicationSecret" : "f0805ab3a4964f5eaf2619fc0ee8d98e",
+  "applicationId" : "fab6e6f54b27439bb968d4bfa9fafa2f",
+  "applicationSecret" : "88f0dbf262e04b849f646f6635fa33ae",
   "displayName" : "Test Application",
   "logs" : [ ]
 }</code></pre>
@@ -671,12 +682,12 @@ Content-Length: 172
 </div>
 </div>
 <div class="sect2">
-<h3 id="invalid-req">invalid request</h3>
+<h3 id="register-invalid-req">Invalid request</h3>
 <div class="paragraph">
 <p>Here&#8217;s all the invalid requests and their respective response</p>
 </div>
 <div class="sect3">
-<h4 id="_bad_token">bad token</h4>
+<h4 id="_bad_token">Bad token</h4>
 <div class="paragraph">
 <p>Sample Request</p>
 </div>
@@ -710,7 +721,7 @@ X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_bad_param">bad param</h4>
+<h4 id="_bad_param">Bad param</h4>
 <div class="paragraph">
 <p>Sample Request with application name longer than 32 character</p>
 </div>
@@ -727,6 +738,9 @@ Content-Length: 99
   "displayName" : "TestApplicationTestApplicationTestApplicationTestApplicationTestApplication"
 }</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>And the response will be</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -749,10 +763,150 @@ Content-Length: 58
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="log">Log</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This service is used to add a new log for an existing application</p>
+</div>
+<div class="sect2">
+<h3 id="log-valid-request">Valid request</h3>
+<div class="paragraph">
+<p>Access the log service using valid token and request body</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /log HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmFuIiwianRpIjoiMSIsImlzcyI6IkxvZ2dlckFwcGxpY2F0aW9uIiwiaWF0IjoxNDg0NTQzODc0LCJSb2xlcyI6Ilt7XCJpZFwiOjEsXCJjb2RlXCI6XCJST0xFX1VTRVJcIixcImxhYmVsXCI6XCJVU0VSXCJ9XSJ9.Me41JSTRhkyx2xb0_NHW6URWwFNimCjyu-3-Gvs1C8E
+Accept: application/json
+Content-Type: application/json
+Host: localhost:8080
+Content-Length: 152
+
+{
+  "applicationId" : "test_app_id",
+  "logger" : "com.cefalo.learning",
+  "logLevel" : "WARN",
+  "message" : "Failed to validate address from google"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And you will get the following response</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 22
+
+{
+  "success" : true
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="log-invalid-request">Invalid request</h3>
+<div class="paragraph">
+<p>Here&#8217;s few of the invalid request and their respective response for log service</p>
+</div>
+<div class="sect3">
+<h4 id="log-invalid-request-app-id">Application id</h4>
+<div class="paragraph">
+<p>Below making an request with invalid application id</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /log HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmFuIiwianRpIjoiMSIsImlzcyI6IkxvZ2dlckFwcGxpY2F0aW9uIiwiaWF0IjoxNDg0NTQzODc0LCJSb2xlcyI6Ilt7XCJpZFwiOjEsXCJjb2RlXCI6XCJST0xFX1VTRVJcIixcImxhYmVsXCI6XCJVU0VSXCJ9XSJ9.Me41JSTRhkyx2xb0_NHW6URWwFNimCjyu-3-Gvs1C8E
+Accept: application/json
+Content-Type: application/json
+Host: localhost:8080
+Content-Length: 155
+
+{
+  "applicationId" : "invalid_app_id",
+  "logger" : "com.cefalo.learning",
+  "logLevel" : "WARN",
+  "message" : "Failed to validate address from google"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the response will be</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 43
+
+{
+  "response" : "Invalid application id"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="log-invalid-request-content-lenght">Content length</h4>
+<div class="paragraph">
+<p>Here&#8217;s a request to log service with extra long logger</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /log HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmFuIiwianRpIjoiMSIsImlzcyI6IkxvZ2dlckFwcGxpY2F0aW9uIiwiaWF0IjoxNDg0NTQzODc0LCJSb2xlcyI6Ilt7XCJpZFwiOjEsXCJjb2RlXCI6XCJST0xFX1VTRVJcIixcImxhYmVsXCI6XCJVU0VSXCJ9XSJ9.Me41JSTRhkyx2xb0_NHW6URWwFNimCjyu-3-Gvs1C8E
+Accept: application/json
+Content-Type: application/json
+Host: localhost:8080
+Content-Length: 433
+
+{
+  "applicationId" : "test_app_id",
+  "logger" : "com.cefalo.learning.com.cefalo.learning.com.cefalo.learning.com.cefalo.learning.com.cefalo.learning.com.cefalo.learning.com.cefalo.learning.com.cefalo.learning.com.cefalo.learning.com.cefalo.learning.com.cefalo.learning.com.cefalo.learning.com.cefalo.learning.com.cefalo.learning.com.cefalo.learning.",
+  "logLevel" : "WARN",
+  "message" : "Failed to validate address from google"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 46
+
+{
+  "response" : "length constrain violated"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-01-16 16:45:20 BDT
+Last updated 2017-01-17 11:49:19 BDT
 </div>
 </div>
 </body>

@@ -62,7 +62,7 @@ In case of valid credential it will return a JWT token. If credential is
 invalid, it will return 401 Unauthorized
 
 [[services-auth-valid]]
-=== valid credential
+=== Valid credential
 Access the auth service with valid credential:
 
 include::{snippets}/auth-valid-credential/curl-request.adoc[]
@@ -72,7 +72,7 @@ Valid response will be:
 include::{snippets}/auth-valid-credential/http-response.adoc[]
 
 [[services-auth-invalid]]
-=== invalid or no credential
+=== Invalid or no credential
 Access the auth service with no credential & invalid credential:
 
 include::{snippets}/auth-no-credential/curl-request.adoc[]
@@ -85,31 +85,62 @@ include::{snippets}/auth-no-credential/http-response.adoc[]
 
 [[register]]
 == Register
-
 This service is used to create a new application for an specific
-user. Enduser need to authenticate himself by providing the jwt token
+user. End user need to authenticate himself by providing the jwt token
 received from /auth service.
 
-[[valid-request]]
-=== valid request
+[[register-valid-request]]
+=== Valid request
 Access the register service with valid token and request body
 include::{snippets}/register-success/http-request.adoc[]
 
 And the response will be
 include::{snippets}/register-success/http-response.adoc[]
 
-[[invalid-req]]
-=== invalid request
+[[register-invalid-req]]
+=== Invalid request
 Here's all the invalid requests and their respective response
 
-==== bad token
+==== Bad token
 Sample Request
 include::{snippets}/register-invalid-token/http-request.adoc[]
 
 And the response will be
 include::{snippets}/register-invalid-token/http-response.adoc[]
 
-==== bad param
+==== Bad param
 Sample Request with application name longer than 32 character
 include::{snippets}/register-invalid-body/http-request.adoc[]
+
+And the response will be
 include::{snippets}/register-invalid-body/http-response.adoc[]
+
+[[log]]
+== Log
+This service is used to add a new log for an existing application
+
+[[log-valid-request]]
+=== Valid request
+Access the log service using valid token and request body
+include::{snippets}/log-success/http-request.adoc[]
+
+And you will get the following response
+include::{snippets}/log-success/http-response.adoc[]
+
+[[log-invalid-request]]
+=== Invalid request
+Here's few of the invalid request and their respective response for log service
+
+[[log-invalid-request-app-id]]
+==== Application id
+Below making an request with invalid application id
+include::{snippets}/log-fail-invalid-app-id/http-request.adoc[]
+
+And the response will be
+include::{snippets}/log-fail-invalid-app-id/http-response.adoc[]
+
+[[log-invalid-request-content-lenght]]
+==== Content length
+Here's a request to log service with extra long logger
+include::{snippets}/log-fail-invalid-content-length/http-request.adoc[]
+include::{snippets}/log-fail-invalid-content-length/http-response.adoc[]

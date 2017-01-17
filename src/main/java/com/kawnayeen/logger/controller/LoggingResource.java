@@ -87,7 +87,7 @@ public class LoggingResource {
         log.setLevel(logInfo.getLogLevel());
         log.setMessage(logInfo.getMessage());
         logService.create(log);
-        return new ResponseEntity<>(Collections.singletonMap("success", true), HttpStatus.OK);
+        return new ResponseEntity<>(Collections.singletonMap("success", true), HttpStatus.CREATED);
     }
 
     @TokenAuthentication

@@ -1,5 +1,6 @@
 package com.kawnayeen.logger.controller;
 
+import com.kawnayeen.logger.hateoas.ApplicationResource;
 import com.kawnayeen.logger.misc.StringUtility;
 import com.kawnayeen.logger.model.LoggerUser;
 import com.kawnayeen.logger.model.entity.Account;
@@ -19,10 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.Map;
@@ -62,14 +60,27 @@ public class LoggingResource {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Application> createNewApplication(@CurrentUser LoggerUser loggerUser, @RequestBody DisplayName displayName) {
+    public ResponseEntity<ApplicationResource> createNewApplication(@CurrentUser LoggerUser loggerUser, @RequestBody DisplayName displayName) {
         Account account = accountService.findOne(loggerUser.getId());
         Application application = new Application();
         application.setDisplayName(displayName.getDisplayName());
         application.setApplicationId(stringUtility.randomString());
         application.setApplicationSecret(stringUtility.randomString());
         application.setAccount(account);
-        return new ResponseEntity<>(applicationService.create(application), HttpStatus.CREATED);
+        ApplicationResource applicationResource = new ApplicationResource(applicationService.create(application));
+        return new ResponseEntity<>(applicationResource, HttpStatus.CREATED);
+    }
+
+    @TokenAuthentication
+    @RequestMapping(
+            value = "/application/{appId}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<ApplicationResource> getApplication(@CurrentUser LoggerUser loggerUser,@PathVariable("appId") String appId){
+        ApplicationResource applicationResource = new ApplicationResource(applicationService.findByApplicationId(appId));
+        return new ResponseEntity<ApplicationResource>(applicationResource, HttpStatus.OK);
     }
 
     @RateLimit(value = 3)

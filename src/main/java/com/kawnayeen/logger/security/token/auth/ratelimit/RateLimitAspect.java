@@ -6,12 +6,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-
-import java.util.Collection;
-import java.util.Collections;
 
 /**
  * Created by kawnayeen on 1/12/17.
@@ -28,9 +23,8 @@ public class RateLimitAspect {
         if (rateLimiter.willProceed(loggerUser.getAccessToken(), rateLimit.value())) {
             return proceedingJoinPoint.proceed();
         } else {
-            return new ResponseEntity(Collections.singletonMap("error", "rate limit exceeded"), HttpStatus.FORBIDDEN);
+            throw new RateLimitExceeded();
         }
-
     }
 }
 

@@ -25,9 +25,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.Map;
-
 /**
  * Created by kawnayeen on 1/2/17.
  */
@@ -58,7 +55,18 @@ public class LoggingController {
 
     @TokenAuthentication
     @RequestMapping(
-            value = "/register",
+            value = "/profile",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<AccountResource> getAccountDetails(@CurrentUser LoggerUser loggerUser) {
+        Account account = accountService.findOne(loggerUser.getId());
+        return new ResponseEntity<>(new AccountResource(account), HttpStatus.OK);
+    }
+
+    @TokenAuthentication
+    @RequestMapping(
+            value = "/applications",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
@@ -76,14 +84,14 @@ public class LoggingController {
 
     @TokenAuthentication
     @RequestMapping(
-            value = "/application/{appId}",
+            value = "/applications/{appId}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<ApplicationResource> getApplication(@CurrentUser LoggerUser loggerUser, @PathVariable("appId") String appId) {
         ApplicationResource applicationResource = new ApplicationResource(applicationService.findByApplicationId(appId));
-        return new ResponseEntity<ApplicationResource>(applicationResource, HttpStatus.OK);
+        return new ResponseEntity<>(applicationResource, HttpStatus.OK);
     }
 
     @TokenAuthentication
@@ -101,29 +109,18 @@ public class LoggingController {
     @RateLimit(value = 3)
     @TokenAuthentication
     @RequestMapping(
-            value = "/log",
+            value = "/logs",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Map<String, Object>> addNewLog(@CurrentUser LoggerUser loggerUser, @RequestBody LogInfo logInfo) {
+    public ResponseEntity<LogResource> addNewLog(@CurrentUser LoggerUser loggerUser, @RequestBody LogInfo logInfo) {
         Log log = new Log();
         log.setApplication(applicationService.findByApplicationId(logInfo.getApplicationId()));
         log.setLogger(logInfo.getLogger());
         log.setLevel(logInfo.getLogLevel());
         log.setMessage(logInfo.getMessage());
-        logService.create(log);
-        return new ResponseEntity<>(Collections.singletonMap("success", true), HttpStatus.CREATED);
-    }
-
-    @TokenAuthentication
-    @RequestMapping(
-            value = "/profile",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<AccountResource> getAccountDetails(@CurrentUser LoggerUser loggerUser) {
-        Account account = accountService.findOne(loggerUser.getId());
-        return new ResponseEntity<>(new AccountResource(account), HttpStatus.OK);
+        log = logService.create(log);
+        return new ResponseEntity<>(new LogResource(log), HttpStatus.CREATED);
     }
 }

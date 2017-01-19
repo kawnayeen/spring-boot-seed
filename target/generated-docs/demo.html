@@ -589,13 +589,13 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 437
+Content-Length: 441
 
 {
-  "accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmFuIiwianRpIjoiMSIsImlzcyI6IkxvZ2dlckFwcGxpY2F0aW9uIiwiaWF0IjoxNDg0ODIwODUxLCJSb2xlcyI6Ilt7XCJpZFwiOjEsXCJjb2RlXCI6XCJST0xFX1VTRVJcIixcImxhYmVsXCI6XCJVU0VSXCJ9XSJ9.-6JKxMzoiAxqMF9MUbaaMpa6UVdwvLyOo3owNZMI_z8",
+  "accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmFuIiwianRpIjoiMSIsImlzcyI6IkxvZ2dlckFwcGxpY2F0aW9uIiwiaWF0IjoxNDg0ODM2NTY0LCJSb2xlcyI6Ilt7XCJpZFwiOjEsXCJjb2RlXCI6XCJST0xFX1VTRVJcIixcImxhYmVsXCI6XCJVU0VSXCJ9XSJ9.XJnWCDCfQEtrkAdpLqHi7wCPnfc4Ug0T0IRXBra3ljE",
   "_links" : {
     "add_application" : {
-      "href" : "http://localhost:8080/register"
+      "href" : "http://localhost:8080/applications"
     },
     "profile" : {
       "href" : "http://localhost:8080/profile"
@@ -653,7 +653,7 @@ received from /auth service.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /register HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /applications HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmFuIiwianRpIjoiMSIsImlzcyI6IkxvZ2dlckFwcGxpY2F0aW9uIiwiaWF0IjoxNDg0NTQzODc0LCJSb2xlcyI6Ilt7XCJpZFwiOjEsXCJjb2RlXCI6XCJST0xFX1VTRVJcIixcImxhYmVsXCI6XCJVU0VSXCJ9XSJ9.Me41JSTRhkyx2xb0_NHW6URWwFNimCjyu-3-Gvs1C8E
 Accept: application/json
 Content-Type: application/json
@@ -678,16 +678,19 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 305
+Content-Length: 375
 
 {
-  "applicationId" : "ef48a84e7fae4977ba4a8ec4ea376183",
-  "applicationSecret" : "c225d22984e245a9b7bc261164d70d00",
+  "applicationId" : "178b658f62844ef08a4bd6aae5ad63f2",
+  "applicationSecret" : "21db11ec1a394373a3f07f8defb7a2fc",
   "displayName" : "Test Application",
   "logResources" : [ ],
   "_links" : {
     "self" : {
-      "href" : "http://localhost:8080/application/ef48a84e7fae4977ba4a8ec4ea376183"
+      "href" : "http://localhost:8080/applications/178b658f62844ef08a4bd6aae5ad63f2"
+    },
+    "add_log" : {
+      "href" : "http://localhost:8080/logs"
     }
   }
 }</code></pre>
@@ -706,7 +709,7 @@ Content-Length: 305
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /register HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /applications HTTP/1.1
 Authorization: Bearer Invalid Token
 Accept: application/json
 Content-Type: application/json
@@ -740,7 +743,7 @@ X-Frame-Options: DENY</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /register HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /applications HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmFuIiwianRpIjoiMSIsImlzcyI6IkxvZ2dlckFwcGxpY2F0aW9uIiwiaWF0IjoxNDg0NTQzODc0LCJSb2xlcyI6Ilt7XCJpZFwiOjEsXCJjb2RlXCI6XCJST0xFX1VTRVJcIixcImxhYmVsXCI6XCJVU0VSXCJ9XSJ9.Me41JSTRhkyx2xb0_NHW6URWwFNimCjyu-3-Gvs1C8E
 Accept: application/json
 Content-Type: application/json
@@ -789,7 +792,7 @@ Content-Length: 58
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /log HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /logs HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmFuIiwianRpIjoiMSIsImlzcyI6IkxvZ2dlckFwcGxpY2F0aW9uIiwiaWF0IjoxNDg0NTQzODc0LCJSb2xlcyI6Ilt7XCJpZFwiOjEsXCJjb2RlXCI6XCJST0xFX1VTRVJcIixcImxhYmVsXCI6XCJVU0VSXCJ9XSJ9.Me41JSTRhkyx2xb0_NHW6URWwFNimCjyu-3-Gvs1C8E
 Accept: application/json
 Content-Type: application/json
@@ -817,10 +820,20 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 22
+Content-Length: 237
 
 {
-  "success" : true
+  "log" : {
+    "id" : 1,
+    "logger" : "com.cefalo.learning",
+    "level" : "WARN",
+    "message" : "Failed to validate address from google"
+  },
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/logs/1"
+    }
+  }
 }</code></pre>
 </div>
 </div>
@@ -837,7 +850,7 @@ Content-Length: 22
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /log HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /logs HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmFuIiwianRpIjoiMSIsImlzcyI6IkxvZ2dlckFwcGxpY2F0aW9uIiwiaWF0IjoxNDg0NTQzODc0LCJSb2xlcyI6Ilt7XCJpZFwiOjEsXCJjb2RlXCI6XCJST0xFX1VTRVJcIixcImxhYmVsXCI6XCJVU0VSXCJ9XSJ9.Me41JSTRhkyx2xb0_NHW6URWwFNimCjyu-3-Gvs1C8E
 Accept: application/json
 Content-Type: application/json
@@ -880,7 +893,7 @@ Content-Length: 43
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /log HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /logs HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmFuIiwianRpIjoiMSIsImlzcyI6IkxvZ2dlckFwcGxpY2F0aW9uIiwiaWF0IjoxNDg0NTQzODc0LCJSb2xlcyI6Ilt7XCJpZFwiOjEsXCJjb2RlXCI6XCJST0xFX1VTRVJcIixcImxhYmVsXCI6XCJVU0VSXCJ9XSJ9.Me41JSTRhkyx2xb0_NHW6URWwFNimCjyu-3-Gvs1C8E
 Accept: application/json
 Content-Type: application/json
@@ -894,6 +907,9 @@ Content-Length: 433
   "message" : "Failed to validate address from google"
 }</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>and the response will be</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -919,7 +935,7 @@ Content-Length: 46
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-01-17 12:05:25 BDT
+Last updated 2017-01-19 18:59:50 BDT
 </div>
 </div>
 </body>

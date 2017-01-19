@@ -33,7 +33,6 @@ public class ApplicationServiceBean implements ApplicationService {
     }
 
     @Override
-    //@Cacheable(value = "application",key = "#applicationId")
     public Application findByApplicationId(String applicationId) {
         Application application = applicationRepository.findByApplicationId(applicationId);
         if(application==null)

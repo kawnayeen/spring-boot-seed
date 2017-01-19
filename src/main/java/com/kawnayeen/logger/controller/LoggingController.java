@@ -1,6 +1,8 @@
 package com.kawnayeen.logger.controller;
 
 import com.kawnayeen.logger.hateoas.ApplicationResource;
+import com.kawnayeen.logger.hateoas.AuthSuccessResource;
+import com.kawnayeen.logger.hateoas.LogResource;
 import com.kawnayeen.logger.misc.StringUtility;
 import com.kawnayeen.logger.model.LoggerUser;
 import com.kawnayeen.logger.model.entity.Account;
@@ -29,7 +31,7 @@ import java.util.Map;
  * Created by kawnayeen on 1/2/17.
  */
 @RestController
-public class LoggingResource {
+public class LoggingController {
 
     @Autowired
     JwtUtil jwtUtil;
@@ -48,9 +50,9 @@ public class LoggingResource {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Map<String, String>> auth(@CurrentUser LoggerUser loggerUser) {
+    public ResponseEntity<AuthSuccessResource> auth(@CurrentUser LoggerUser loggerUser) {
         String accessToken = jwtUtil.generateToken(loggerUser);
-        return new ResponseEntity<>(Collections.singletonMap("accessToken", accessToken), HttpStatus.OK);
+        return new ResponseEntity<>(new AuthSuccessResource(accessToken), HttpStatus.OK);
     }
 
     @TokenAuthentication
@@ -78,9 +80,21 @@ public class LoggingResource {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<ApplicationResource> getApplication(@CurrentUser LoggerUser loggerUser,@PathVariable("appId") String appId){
+    public ResponseEntity<ApplicationResource> getApplication(@CurrentUser LoggerUser loggerUser, @PathVariable("appId") String appId) {
         ApplicationResource applicationResource = new ApplicationResource(applicationService.findByApplicationId(appId));
         return new ResponseEntity<ApplicationResource>(applicationResource, HttpStatus.OK);
+    }
+
+    @TokenAuthentication
+    @RequestMapping(
+            value = "logs/{logId}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<LogResource> getLog(@CurrentUser LoggerUser loggerUser, @PathVariable("logId") Long logId) {
+        LogResource logResource = new LogResource(logService.findOne(logId));
+        return new ResponseEntity<>(logResource, HttpStatus.OK);
     }
 
     @RateLimit(value = 3)

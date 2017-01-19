@@ -65,5 +65,5 @@ Licensed under the Apache License, Version 2.0
  
 Contributor
 -----------
-Muhammad Kamarul Kawnayeen ([@kawnayen08](https://github.com/kawnayeen08))
+Muhammad Kamarul Kawnayeen ([@kawnayeen](https://github.com/kawnayeen))
  

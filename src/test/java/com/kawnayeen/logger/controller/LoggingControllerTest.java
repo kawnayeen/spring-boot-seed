@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by kawnayeen on 1/5/17.
  */
 @Transactional
-public class LoggingResourceTest extends AbstractControllerTest {
+public class LoggingControllerTest extends AbstractControllerTest {
 
     private static final String USERNAME = "Anan";
     private static final String PASSWORD = "anan";
@@ -123,8 +123,6 @@ public class LoggingResourceTest extends AbstractControllerTest {
         mvc.perform(request).andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andDo(getDocument("log-fail-invalid-content-length"));
     }
-
-
 
     private LogInfo getValidLogInfo() {
         LogInfo logInfo = new LogInfo();

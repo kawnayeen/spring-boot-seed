@@ -5,6 +5,7 @@ import com.kawnayeen.logger.model.service.LogService;
 import com.kawnayeen.logger.model.repository.LogRepository;
 import com.kawnayeen.logger.model.service.exception.InvalidLogException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,5 +28,11 @@ public class LogServiceBean implements LogService {
         }catch (Exception e){
             throw new InvalidLogException();
         }
+    }
+
+    @Override
+    @Cacheable(value = "log", key = "#id")
+    public Log findOne(Long id) {
+        return logRepository.findOne(id);
     }
 }

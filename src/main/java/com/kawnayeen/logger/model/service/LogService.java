@@ -7,4 +7,5 @@ import com.kawnayeen.logger.model.entity.Log;
  */
 public interface LogService {
     Log create(Log log);
+    Log findOne(Long id);
 }

@@ -31,6 +31,9 @@ public class ApplicationResource extends ResourceSupport {
         add(linkTo(methodOn(LoggingController.class)
                 .getApplication(null, application.getApplicationId()))
                 .withSelfRel());
+
+        add(linkTo(methodOn(LoggingController.class)
+                .addNewLog(null,null)).withRel("add_log"));
     }
 
     public String getApplicationId() {

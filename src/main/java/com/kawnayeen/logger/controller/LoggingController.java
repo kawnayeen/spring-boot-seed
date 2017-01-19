@@ -1,5 +1,6 @@
 package com.kawnayeen.logger.controller;
 
+import com.kawnayeen.logger.hateoas.AccountResource;
 import com.kawnayeen.logger.hateoas.ApplicationResource;
 import com.kawnayeen.logger.hateoas.AuthSuccessResource;
 import com.kawnayeen.logger.hateoas.LogResource;
@@ -121,7 +122,8 @@ public class LoggingController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Account> getAccountDetails(@CurrentUser LoggerUser loggerUser) {
-        return new ResponseEntity<>(accountService.findOne(loggerUser.getId()), HttpStatus.OK);
+    public ResponseEntity<AccountResource> getAccountDetails(@CurrentUser LoggerUser loggerUser) {
+        Account account = accountService.findOne(loggerUser.getId());
+        return new ResponseEntity<>(new AccountResource(account), HttpStatus.OK);
     }
 }

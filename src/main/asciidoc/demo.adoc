@@ -143,4 +143,6 @@ include::{snippets}/log-fail-invalid-app-id/http-response.adoc[]
 ==== Content length
 Here's a request to log service with extra long logger
 include::{snippets}/log-fail-invalid-content-length/http-request.adoc[]
+
+and the response will be
 include::{snippets}/log-fail-invalid-content-length/http-response.adoc[]

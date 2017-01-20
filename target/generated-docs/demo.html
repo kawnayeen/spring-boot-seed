@@ -433,6 +433,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#overview-http-verbs">HTTP Verbs</a></li>
 <li><a href="#overview-http-status-cods">HTTP status codes</a></li>
+<li><a href="#authentication">Authentication</a></li>
 </ul>
 </li>
 <li><a href="#services">Services</a>
@@ -443,18 +444,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#services-auth-invalid">Invalid or no credential</a></li>
 </ul>
 </li>
-<li><a href="#register">Register</a>
+<li><a href="#profile">Profile</a></li>
+<li><a href="#application">Applications</a>
 <ul class="sectlevel2">
-<li><a href="#register-valid-request">Valid request</a></li>
-<li><a href="#register-invalid-req">Invalid request</a>
+<li><a href="#create-application">Create Application</a>
 <ul class="sectlevel3">
-<li><a href="#_bad_token">Bad token</a></li>
-<li><a href="#_bad_param">Bad param</a></li>
+<li><a href="#_valid_request">Valid Request</a></li>
+<li><a href="#_invalid_request">Invalid request</a></li>
 </ul>
 </li>
+<li><a href="#_read_application">Read Application</a></li>
 </ul>
 </li>
-<li><a href="#log">Log</a>
+<li><a href="#log">Logs</a>
 <ul class="sectlevel2">
 <li><a href="#log-valid-request">Valid request</a></li>
 <li><a href="#log-invalid-request">Invalid request</a>
@@ -557,6 +559,18 @@ HTTP and REST conventions in its use of HTTP status codes.</p>
 </table>
 </div>
 </div>
+<div class="sect1">
+<h2 id="authentication">Authentication</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>All the end points are authenticated. The very starting api of logger service use
+<strong><em><a href="https://en.wikipedia.org/wiki/Basic_access_authentication">Basic Authentication</a></em></strong>, where user
+need to authenticate himself using <strong><em>username</em></strong> and <strong><em>password</em></strong>. If basic auth succeeded,
+then it will return a <strong><em><a href="https://jwt.io/">Json Web Token</a></em></strong> which the
+user need to provide in authorization header for each subsequent request.</p>
+</div>
+</div>
+</div>
 <h1 id="services" class="sect0">Services</h1>
 <div class="sect1">
 <h2 id="services-auth">Auth</h2>
@@ -592,7 +606,7 @@ X-Frame-Options: DENY
 Content-Length: 441
 
 {
-  "accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmFuIiwianRpIjoiMSIsImlzcyI6IkxvZ2dlckFwcGxpY2F0aW9uIiwiaWF0IjoxNDg0ODM2NTY0LCJSb2xlcyI6Ilt7XCJpZFwiOjEsXCJjb2RlXCI6XCJST0xFX1VTRVJcIixcImxhYmVsXCI6XCJVU0VSXCJ9XSJ9.XJnWCDCfQEtrkAdpLqHi7wCPnfc4Ug0T0IRXBra3ljE",
+  "accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmFuIiwianRpIjoiMSIsImlzcyI6IkxvZ2dlckFwcGxpY2F0aW9uIiwiaWF0IjoxNDg0OTAxMzE0LCJSb2xlcyI6Ilt7XCJpZFwiOjEsXCJjb2RlXCI6XCJST0xFX1VTRVJcIixcImxhYmVsXCI6XCJVU0VSXCJ9XSJ9.HwjgUQkcCypsPs57tfZUQhsuj_xVLeIvDfpfkrgyIcI",
   "_links" : {
     "add_application" : {
       "href" : "http://localhost:8080/applications"
@@ -639,15 +653,86 @@ X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="register">Register</h2>
+<h2 id="profile">Profile</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This service is used to create a new application for an specific
-user. End user need to authenticate himself by providing the jwt token
-received from /auth service.</p>
+<p>Here&#8217;s how to access profile api</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /profile HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmFuIiwianRpIjoiMSIsImlzcyI6IkxvZ2dlckFwcGxpY2F0aW9uIiwiaWF0IjoxNDg0NTQzODc0LCJSb2xlcyI6Ilt7XCJpZFwiOjEsXCJjb2RlXCI6XCJST0xFX1VTRVJcIixcImxhYmVsXCI6XCJVU0VSXCJ9XSJ9.Me41JSTRhkyx2xb0_NHW6URWwFNimCjyu-3-Gvs1C8E
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the response will be</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 737
+
+{
+  "username" : "Anan",
+  "applicationList" : [ {
+    "applicationId" : "test_app_id",
+    "applicationSecret" : "test_app_secret",
+    "displayName" : "Test Application",
+    "logResources" : [ {
+      "log" : {
+        "id" : 1,
+        "logger" : "com.cefalo.test",
+        "level" : "WARN",
+        "message" : "Sample Log"
+      },
+      "_links" : {
+        "self" : {
+          "href" : "http://localhost:8080/logs/1"
+        }
+      }
+    } ],
+    "_links" : {
+      "self" : {
+        "href" : "http://localhost:8080/applications/test_app_id"
+      },
+      "add_log" : {
+        "href" : "http://localhost:8080/logs"
+      }
+    }
+  } ],
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/profile"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="application">Applications</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>End points regarding <em>Application</em> resource</p>
 </div>
 <div class="sect2">
-<h3 id="register-valid-request">Valid request</h3>
+<h3 id="create-application">Create Application</h3>
+<div class="paragraph">
+<p>This section will discuss how to create a new application &amp; different
+error message thrown when creating application</p>
+</div>
+<div class="sect3">
+<h4 id="_valid_request">Valid Request</h4>
 <div class="paragraph">
 <p>Access the register service with valid token and request body</p>
 </div>
@@ -681,13 +766,13 @@ X-Frame-Options: DENY
 Content-Length: 375
 
 {
-  "applicationId" : "178b658f62844ef08a4bd6aae5ad63f2",
-  "applicationSecret" : "21db11ec1a394373a3f07f8defb7a2fc",
+  "applicationId" : "d54fe349c89441439aa58f933f4fdb09",
+  "applicationSecret" : "f64402b10694474f90b371c22e2d77ef",
   "displayName" : "Test Application",
   "logResources" : [ ],
   "_links" : {
     "self" : {
-      "href" : "http://localhost:8080/applications/178b658f62844ef08a4bd6aae5ad63f2"
+      "href" : "http://localhost:8080/applications/d54fe349c89441439aa58f933f4fdb09"
     },
     "add_log" : {
       "href" : "http://localhost:8080/logs"
@@ -697,13 +782,14 @@ Content-Length: 375
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="register-invalid-req">Invalid request</h3>
+<div class="sect3">
+<h4 id="_invalid_request">Invalid request</h4>
 <div class="paragraph">
 <p>Here&#8217;s all the invalid requests and their respective response</p>
 </div>
-<div class="sect3">
-<h4 id="_bad_token">Bad token</h4>
+<div class="paragraph">
+<p><strong>Bad token</strong></p>
+</div>
 <div class="paragraph">
 <p>Sample Request</p>
 </div>
@@ -735,9 +821,9 @@ Expires: 0
 X-Frame-Options: DENY</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><strong>Bad param</strong></p>
 </div>
-<div class="sect3">
-<h4 id="_bad_param">Bad param</h4>
 <div class="paragraph">
 <p>Sample Request with application name longer than 32 character</p>
 </div>
@@ -777,10 +863,67 @@ Content-Length: 58
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_read_application">Read Application</h3>
+<div class="paragraph">
+<p>Here&#8217;s how to get application details by providing <em>application id</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /applications/test_app_id HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmFuIiwianRpIjoiMSIsImlzcyI6IkxvZ2dlckFwcGxpY2F0aW9uIiwiaWF0IjoxNDg0NTQzODc0LCJSb2xlcyI6Ilt7XCJpZFwiOjEsXCJjb2RlXCI6XCJST0xFX1VTRVJcIixcImxhYmVsXCI6XCJVU0VSXCJ9XSJ9.Me41JSTRhkyx2xb0_NHW6URWwFNimCjyu-3-Gvs1C8E
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the response will be</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 546
+
+{
+  "applicationId" : "test_app_id",
+  "applicationSecret" : "test_app_secret",
+  "displayName" : "Test Application",
+  "logResources" : [ {
+    "log" : {
+      "id" : 1,
+      "logger" : "com.cefalo.test",
+      "level" : "WARN",
+      "message" : "Sample Log"
+    },
+    "_links" : {
+      "self" : {
+        "href" : "http://localhost:8080/logs/1"
+      }
+    }
+  } ],
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/applications/test_app_id"
+    },
+    "add_log" : {
+      "href" : "http://localhost:8080/logs"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="log">Log</h2>
+<h2 id="log">Logs</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This service is used to add a new log for an existing application</p>
@@ -824,14 +967,14 @@ Content-Length: 237
 
 {
   "log" : {
-    "id" : 1,
+    "id" : 2,
     "logger" : "com.cefalo.learning",
     "level" : "WARN",
     "message" : "Failed to validate address from google"
   },
   "_links" : {
     "self" : {
-      "href" : "http://localhost:8080/logs/1"
+      "href" : "http://localhost:8080/logs/2"
     }
   }
 }</code></pre>
@@ -935,7 +1078,7 @@ Content-Length: 46
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-01-19 18:59:50 BDT
+Last updated 2017-01-20 15:12:21 BDT
 </div>
 </div>
 </body>

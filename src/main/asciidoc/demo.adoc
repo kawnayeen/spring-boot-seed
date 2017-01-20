@@ -52,6 +52,15 @@ HTTP and REST conventions in its use of HTTP status codes.
 | If token verification failed or rate limit exceeded
 |===
 
+[[authentication]]
+== Authentication
+All the end points are authenticated. The very starting api of logger service use
+*_https://en.wikipedia.org/wiki/Basic_access_authentication[Basic Authentication]_*, where user
+need to authenticate himself using *_username_* and *_password_*. If basic auth succeeded,
+then it will return a *_https://jwt.io/[Json Web Token]_* which the
+user need to provide in authorization header for each subsequent request.
+
+
 [[services]]
 = Services
 
@@ -83,40 +92,63 @@ And the response will be
 
 include::{snippets}/auth-no-credential/http-response.adoc[]
 
-[[register]]
-== Register
-This service is used to create a new application for an specific
-user. End user need to authenticate himself by providing the jwt token
-received from /auth service.
+[[profile]]
+== Profile
+Here's how to access profile api
 
-[[register-valid-request]]
-=== Valid request
+include::{snippets}/profile-success/http-request.adoc[]
+
+And the response will be
+
+include::{snippets}/profile-success/http-response.adoc[]
+
+[[application]]
+== Applications
+End points regarding _Application_ resource
+
+[[create-application]]
+=== Create Application
+This section will discuss how to create a new application & different
+error message thrown when creating application
+
+==== Valid Request
+
 Access the register service with valid token and request body
 include::{snippets}/register-success/http-request.adoc[]
 
 And the response will be
 include::{snippets}/register-success/http-response.adoc[]
 
-[[register-invalid-req]]
-=== Invalid request
+==== Invalid request
 Here's all the invalid requests and their respective response
 
-==== Bad token
+*Bad token*
+
 Sample Request
 include::{snippets}/register-invalid-token/http-request.adoc[]
 
 And the response will be
 include::{snippets}/register-invalid-token/http-response.adoc[]
 
-==== Bad param
+*Bad param*
+
 Sample Request with application name longer than 32 character
 include::{snippets}/register-invalid-body/http-request.adoc[]
 
 And the response will be
 include::{snippets}/register-invalid-body/http-response.adoc[]
 
+=== Read Application
+Here's how to get application details by providing _application id_
+
+include::{snippets}/get-log-success/http-request.adoc[]
+
+And the response will be
+
+include::{snippets}/get-log-success/http-response.adoc[]
+
 [[log]]
-== Log
+== Logs
 This service is used to add a new log for an existing application
 
 [[log-valid-request]]

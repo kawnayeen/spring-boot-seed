@@ -157,10 +157,12 @@ public class LoggingControllerTest extends AbstractControllerTest {
         mvc.perform(request).andExpect(status().isBadRequest());
     }
 
+    @Test
     public void testGetProfile() throws Exception{
         String authorizationData = generateTokenAuth(TOKEN);
         MockHttpServletRequestBuilder request = generateGetRequest(PROFILE,authorizationData);
-        mvc.perform(request).andExpect(status().isOk());
+        mvc.perform(request).andExpect(status().isOk())
+                .andDo(getDocument("profile-success"));;
     }
 
     private LogInfo getValidLogInfo() {

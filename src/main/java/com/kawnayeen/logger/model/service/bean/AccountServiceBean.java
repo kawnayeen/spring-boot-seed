@@ -3,6 +3,7 @@ package com.kawnayeen.logger.model.service.bean;
 import com.kawnayeen.logger.model.entity.Account;
 import com.kawnayeen.logger.model.service.AccountService;
 import com.kawnayeen.logger.model.repository.AccountRepository;
+import com.kawnayeen.logger.model.service.exception.AccountNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -22,6 +23,9 @@ public class AccountServiceBean implements AccountService {
 
     @Override
     public Account findOne(Long id) {
-        return accountRepository.findOne(id);
+        Account account = accountRepository.findOne(id);
+        if(account==null)
+            throw new AccountNotFoundException();
+        return account;
     }
 }

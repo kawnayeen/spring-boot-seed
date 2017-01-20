@@ -1,11 +1,14 @@
 package com.kawnayeen.logger;
 
+import com.kawnayeen.logger.model.LogLevel;
 import com.kawnayeen.logger.model.RoleConstant;
 import com.kawnayeen.logger.model.entity.Account;
 import com.kawnayeen.logger.model.entity.Application;
+import com.kawnayeen.logger.model.entity.Log;
 import com.kawnayeen.logger.model.entity.Role;
 import com.kawnayeen.logger.model.repository.AccountRepository;
 import com.kawnayeen.logger.model.repository.ApplicationRepository;
+import com.kawnayeen.logger.model.repository.LogRepository;
 import com.kawnayeen.logger.model.repository.RoleRepository;
 import com.kawnayeen.logger.security.token.auth.JwtAuthenticationFilter;
 import org.springframework.boot.CommandLineRunner;
@@ -43,8 +46,11 @@ public class LoggerApplication {
     }
 
     @Bean
-    CommandLineRunner initRolesAndAccount(RoleRepository roleRepository, AccountRepository accountRepository,
-                                          ApplicationRepository applicationRepository, PasswordEncoder passwordEncoder) {
+    CommandLineRunner initRolesAndAccount(RoleRepository roleRepository,
+                                          AccountRepository accountRepository,
+                                          ApplicationRepository applicationRepository,
+                                          LogRepository logRepository,
+                                          PasswordEncoder passwordEncoder) {
         return args -> {
             Role user = new Role();
             user.setCode(RoleConstant.PREFIX + RoleConstant.USER);
@@ -75,6 +81,13 @@ public class LoggerApplication {
             application.setApplicationSecret("test_app_secret");
             application.setAccount(firstAccount);
             applicationRepository.save(application);
+
+            Log log = new Log();
+            log.setApplication(application);
+            log.setLogger("com.cefalo.test");
+            log.setLevel(LogLevel.WARN);
+            log.setMessage("Sample Log");
+            logRepository.save(log);
         };
     }
 }

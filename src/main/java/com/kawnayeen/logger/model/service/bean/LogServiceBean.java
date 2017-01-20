@@ -4,6 +4,7 @@ import com.kawnayeen.logger.model.entity.Log;
 import com.kawnayeen.logger.model.service.LogService;
 import com.kawnayeen.logger.model.repository.LogRepository;
 import com.kawnayeen.logger.model.service.exception.InvalidLogException;
+import com.kawnayeen.logger.model.service.exception.LogNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,9 @@ public class LogServiceBean implements LogService {
     @Override
     @Cacheable(value = "log", key = "#id")
     public Log findOne(Long id) {
-        return logRepository.findOne(id);
+        Log log = logRepository.findOne(id);
+        if(log==null)
+            throw new LogNotFoundException();
+        return log;
     }
 }

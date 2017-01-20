@@ -12,7 +12,6 @@ import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.context.WebApplicationContext;
@@ -23,6 +22,8 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 /**
  * Created by kawnayeen on 1/5/17.
@@ -70,10 +71,16 @@ public class AbstractControllerTest extends AbstractTest {
     }
 
     protected MockHttpServletRequestBuilder generatePostRequest(String uri, String authorizationData, String requestBody) {
-        return MockMvcRequestBuilders.post(uri)
+        return post(uri)
                 .header(AUTHORIZATION, authorizationData)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(requestBody);
+    }
+
+    protected MockHttpServletRequestBuilder generateGetRequest(String uri, String authorizationData) {
+        return get(uri)
+                .header(AUTHORIZATION, authorizationData)
+                .accept(MediaType.APPLICATION_JSON_VALUE);
     }
 }

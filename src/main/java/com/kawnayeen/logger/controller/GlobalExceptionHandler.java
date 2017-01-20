@@ -1,9 +1,7 @@
 package com.kawnayeen.logger.controller;
 
-import com.kawnayeen.logger.model.service.exception.ApplicationNotFoundException;
-import com.kawnayeen.logger.model.service.exception.InvalidApplicationException;
-import com.kawnayeen.logger.model.service.exception.InvalidLogException;
-import com.kawnayeen.logger.security.token.auth.ratelimit.RateLimitExceeded;
+import com.kawnayeen.logger.model.service.exception.*;
+import com.kawnayeen.logger.security.token.auth.ratelimit.RateLimitExceededException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -34,8 +32,18 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(Collections.singletonMap("response", e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(value = RateLimitExceeded.class)
-    public ResponseEntity<Map<String, Object>> rateLimitExceeded(RateLimitExceeded e) {
+    @ExceptionHandler(value = RateLimitExceededException.class)
+    public ResponseEntity<Map<String, Object>> rateLimitExceeded(RateLimitExceededException e) {
         return new ResponseEntity<>(Collections.singletonMap("response", e.getMessage()), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(value = LogNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> logNotFound(LogNotFoundException e) {
+        return new ResponseEntity<>(Collections.singletonMap("response", e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = AccountNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> accountNotFound(AccountNotFoundException e) {
+        return new ResponseEntity<>(Collections.singletonMap("response", e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 }

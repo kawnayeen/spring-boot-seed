@@ -23,7 +23,7 @@ public class RateLimitAspect {
         if (rateLimiter.willProceed(loggerUser.getAccessToken(), rateLimit.value())) {
             return proceedingJoinPoint.proceed();
         } else {
-            throw new RateLimitExceeded();
+            throw new RateLimitExceededException();
         }
     }
 }

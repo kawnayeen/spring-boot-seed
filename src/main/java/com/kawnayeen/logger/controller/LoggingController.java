@@ -86,8 +86,7 @@ public class LoggingController {
     @RequestMapping(
             value = "/applications/{appId}",
             method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<ApplicationResource> getApplication(@CurrentUser LoggerUser loggerUser, @PathVariable("appId") String appId) {
         ApplicationResource applicationResource = new ApplicationResource(applicationService.findByApplicationId(appId));
@@ -98,8 +97,7 @@ public class LoggingController {
     @RequestMapping(
             value = "logs/{logId}",
             method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<LogResource> getLog(@CurrentUser LoggerUser loggerUser, @PathVariable("logId") Long logId) {
         LogResource logResource = new LogResource(logService.findOne(logId));

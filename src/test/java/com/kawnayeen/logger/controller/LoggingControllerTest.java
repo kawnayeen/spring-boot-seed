@@ -73,7 +73,7 @@ public class LoggingControllerTest extends AbstractControllerTest {
         request = generatePostRequest(REGISTER, authorizationData, mapToJson(displayName));
         mvc.perform(request)
                 .andExpect(status().isCreated())
-                .andDo(getDocument("register-success"));
+                .andDo(getDocument("application-success"));
     }
 
 
@@ -85,7 +85,7 @@ public class LoggingControllerTest extends AbstractControllerTest {
         request = generatePostRequest(REGISTER, authorizationData, mapToJson(displayName));
         mvc.perform(request)
                 .andExpect(status().isForbidden())
-                .andDo(getDocument("register-invalid-token"));
+                .andDo(getDocument("application-invalid-token"));
     }
 
 
@@ -97,7 +97,7 @@ public class LoggingControllerTest extends AbstractControllerTest {
         request = generatePostRequest(REGISTER, authorizationData, mapToJson(displayName));
         mvc.perform(request)
                 .andExpect(status().isBadRequest())
-                .andDo(getDocument("register-invalid-body"));
+                .andDo(getDocument("application-invalid-body"));
     }
 
     @Test
@@ -107,7 +107,7 @@ public class LoggingControllerTest extends AbstractControllerTest {
         MockHttpServletRequestBuilder request;
         request = generateGetRequest(uri, authorizationData);
         mvc.perform(request).andExpect(status().isOk())
-                .andDo(getDocument("get-log-success"));
+                .andDo(getDocument("get-application-success"));
     }
 
     @Test
@@ -146,7 +146,8 @@ public class LoggingControllerTest extends AbstractControllerTest {
         String uri = LOG + "/1";
         MockHttpServletRequestBuilder request;
         request = generateGetRequest(uri, authorizationData);
-        mvc.perform(request).andExpect(status().isOk());
+        mvc.perform(request).andExpect(status().isOk())
+        .andDo(getDocument("get-log-success"));
     }
 
     @Test
@@ -154,7 +155,8 @@ public class LoggingControllerTest extends AbstractControllerTest {
         String authorizationData = generateTokenAuth(TOKEN);
         String uri = LOG + "/" + Long.MAX_VALUE;
         MockHttpServletRequestBuilder request = generateGetRequest(uri, authorizationData);
-        mvc.perform(request).andExpect(status().isBadRequest());
+        mvc.perform(request).andExpect(status().isBadRequest())
+        .andDo(getDocument("get-log-failure"));
     }
 
     @Test

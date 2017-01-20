@@ -114,10 +114,10 @@ error message thrown when creating application
 ==== Valid Request
 
 Access the register service with valid token and request body
-include::{snippets}/register-success/http-request.adoc[]
+include::{snippets}/application-success/http-request.adoc[]
 
 And the response will be
-include::{snippets}/register-success/http-response.adoc[]
+include::{snippets}/application-success/http-response.adoc[]
 
 ==== Invalid request
 Here's all the invalid requests and their respective response
@@ -125,34 +125,38 @@ Here's all the invalid requests and their respective response
 *Bad token*
 
 Sample Request
-include::{snippets}/register-invalid-token/http-request.adoc[]
+include::{snippets}/application-invalid-token/http-request.adoc[]
 
 And the response will be
-include::{snippets}/register-invalid-token/http-response.adoc[]
+include::{snippets}/application-invalid-token/http-response.adoc[]
 
 *Bad param*
 
 Sample Request with application name longer than 32 character
-include::{snippets}/register-invalid-body/http-request.adoc[]
+include::{snippets}/application-invalid-body/http-request.adoc[]
 
 And the response will be
-include::{snippets}/register-invalid-body/http-response.adoc[]
+include::{snippets}/appplication-invalid-body/http-response.adoc[]
 
 === Read Application
 Here's how to get application details by providing _application id_
 
-include::{snippets}/get-log-success/http-request.adoc[]
+include::{snippets}/get-application-success/http-request.adoc[]
 
 And the response will be
 
-include::{snippets}/get-log-success/http-response.adoc[]
+include::{snippets}/get-application-success/http-response.adoc[]
 
 [[log]]
 == Logs
-This service is used to add a new log for an existing application
+Endpoints regarding _Log_ resouce
+
+=== Create Log
+This section will discuss how to create a new log for given application
+and related success and failure responses
 
 [[log-valid-request]]
-=== Valid request
+==== Valid request
 Access the log service using valid token and request body
 include::{snippets}/log-success/http-request.adoc[]
 
@@ -160,21 +164,28 @@ And you will get the following response
 include::{snippets}/log-success/http-response.adoc[]
 
 [[log-invalid-request]]
-=== Invalid request
+==== Invalid request
 Here's few of the invalid request and their respective response for log service
 
-[[log-invalid-request-app-id]]
-==== Application id
+*Application Id violation*
+
 Below making an request with invalid application id
 include::{snippets}/log-fail-invalid-app-id/http-request.adoc[]
 
 And the response will be
 include::{snippets}/log-fail-invalid-app-id/http-response.adoc[]
 
-[[log-invalid-request-content-lenght]]
-==== Content length
+*Content length violation*
+
 Here's a request to log service with extra long logger
 include::{snippets}/log-fail-invalid-content-length/http-request.adoc[]
 
 and the response will be
 include::{snippets}/log-fail-invalid-content-length/http-response.adoc[]
+
+=== Read Log
+Here's how to read a log providing the _logId_
+include::{snippets}/get-log-success/http-request.adoc[]
+
+and the response will be
+include::{snippets}/get-log-success/http-response.adoc[]

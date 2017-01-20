@@ -458,13 +458,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#log">Logs</a>
 <ul class="sectlevel2">
-<li><a href="#log-valid-request">Valid request</a></li>
-<li><a href="#log-invalid-request">Invalid request</a>
+<li><a href="#_create_log">Create Log</a>
 <ul class="sectlevel3">
-<li><a href="#log-invalid-request-app-id">Application id</a></li>
-<li><a href="#log-invalid-request-content-lenght">Content length</a></li>
+<li><a href="#log-valid-request">Valid request</a></li>
+<li><a href="#log-invalid-request">Invalid request</a></li>
 </ul>
 </li>
+<li><a href="#_read_log">Read Log</a></li>
 </ul>
 </li>
 </ul>
@@ -606,7 +606,7 @@ X-Frame-Options: DENY
 Content-Length: 441
 
 {
-  "accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmFuIiwianRpIjoiMSIsImlzcyI6IkxvZ2dlckFwcGxpY2F0aW9uIiwiaWF0IjoxNDg0OTAxMzE0LCJSb2xlcyI6Ilt7XCJpZFwiOjEsXCJjb2RlXCI6XCJST0xFX1VTRVJcIixcImxhYmVsXCI6XCJVU0VSXCJ9XSJ9.HwjgUQkcCypsPs57tfZUQhsuj_xVLeIvDfpfkrgyIcI",
+  "accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmFuIiwianRpIjoiMSIsImlzcyI6IkxvZ2dlckFwcGxpY2F0aW9uIiwiaWF0IjoxNDg0OTA0NTMyLCJSb2xlcyI6Ilt7XCJpZFwiOjEsXCJjb2RlXCI6XCJST0xFX1VTRVJcIixcImxhYmVsXCI6XCJVU0VSXCJ9XSJ9.4rs_YuazrZnXq7uCzgPUexuP_7za5uuTKoca8gF4AGg",
   "_links" : {
     "add_application" : {
       "href" : "http://localhost:8080/applications"
@@ -766,13 +766,13 @@ X-Frame-Options: DENY
 Content-Length: 375
 
 {
-  "applicationId" : "d54fe349c89441439aa58f933f4fdb09",
-  "applicationSecret" : "f64402b10694474f90b371c22e2d77ef",
+  "applicationId" : "d1520120e51e44d894dffd8f173677fa",
+  "applicationSecret" : "11595e50031e4d789c42010c5c4c7184",
   "displayName" : "Test Application",
   "logResources" : [ ],
   "_links" : {
     "self" : {
-      "href" : "http://localhost:8080/applications/d54fe349c89441439aa58f933f4fdb09"
+      "href" : "http://localhost:8080/applications/d1520120e51e44d894dffd8f173677fa"
     },
     "add_log" : {
       "href" : "http://localhost:8080/logs"
@@ -842,24 +842,8 @@ Content-Length: 99
 </div>
 </div>
 <div class="paragraph">
-<p>And the response will be</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 58
-
-{
-  "response" : "application entity constrain violated"
-}</code></pre>
-</div>
+<p>And the response will be
+Unresolved directive in demo.adoc - include::/Users/kawnayeen/Documents/JavaProjects/logger/target/generated-snippets/appplication-invalid-body/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -926,10 +910,16 @@ Content-Length: 546
 <h2 id="log">Logs</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This service is used to add a new log for an existing application</p>
+<p>Endpoints regarding <em>Log</em> resouce</p>
 </div>
 <div class="sect2">
-<h3 id="log-valid-request">Valid request</h3>
+<h3 id="_create_log">Create Log</h3>
+<div class="paragraph">
+<p>This section will discuss how to create a new log for given application
+and related success and failure responses</p>
+</div>
+<div class="sect3">
+<h4 id="log-valid-request">Valid request</h4>
 <div class="paragraph">
 <p>Access the log service using valid token and request body</p>
 </div>
@@ -981,13 +971,14 @@ Content-Length: 237
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="log-invalid-request">Invalid request</h3>
+<div class="sect3">
+<h4 id="log-invalid-request">Invalid request</h4>
 <div class="paragraph">
 <p>Here&#8217;s few of the invalid request and their respective response for log service</p>
 </div>
-<div class="sect3">
-<h4 id="log-invalid-request-app-id">Application id</h4>
+<div class="paragraph">
+<p><strong>Application Id violation</strong></p>
+</div>
 <div class="paragraph">
 <p>Below making an request with invalid application id</p>
 </div>
@@ -1028,9 +1019,9 @@ Content-Length: 43
 }</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><strong>Content length violation</strong></p>
 </div>
-<div class="sect3">
-<h4 id="log-invalid-request-content-lenght">Content length</h4>
 <div class="paragraph">
 <p>Here&#8217;s a request to log service with extra long logger</p>
 </div>
@@ -1073,12 +1064,56 @@ Content-Length: 46
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_read_log">Read Log</h3>
+<div class="paragraph">
+<p>Here&#8217;s how to read a log providing the <em>logId</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /logs/1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmFuIiwianRpIjoiMSIsImlzcyI6IkxvZ2dlckFwcGxpY2F0aW9uIiwiaWF0IjoxNDg0NTQzODc0LCJSb2xlcyI6Ilt7XCJpZFwiOjEsXCJjb2RlXCI6XCJST0xFX1VTRVJcIixcImxhYmVsXCI6XCJVU0VSXCJ9XSJ9.Me41JSTRhkyx2xb0_NHW6URWwFNimCjyu-3-Gvs1C8E
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and the response will be</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 205
+
+{
+  "log" : {
+    "id" : 1,
+    "logger" : "com.cefalo.test",
+    "level" : "WARN",
+    "message" : "Sample Log"
+  },
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/logs/1"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-01-20 15:12:21 BDT
+Last updated 2017-01-20 15:45:13 BDT
 </div>
 </div>
 </body>

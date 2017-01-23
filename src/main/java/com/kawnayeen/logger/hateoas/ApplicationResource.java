@@ -26,14 +26,17 @@ public class ApplicationResource extends ResourceSupport {
         this.applicationId = application.getApplicationId();
         this.applicationSecret = application.getApplicationSecret();
         this.displayName = application.getDisplayName();
-        this.logResources = application.getLogs().stream().map(LogResource::new).collect(Collectors.toList());
+        this.logResources = application.getLogs()
+                .stream()
+                .map(LogResource::new)
+                .collect(Collectors.toList());
 
         add(linkTo(methodOn(LoggingController.class)
                 .getApplication(null, application.getApplicationId()))
                 .withSelfRel());
 
         add(linkTo(methodOn(LoggingController.class)
-                .addNewLog(null,null)).withRel("add_log"));
+                .addNewLog(null, null)).withRel("add_log"));
     }
 
     public String getApplicationId() {

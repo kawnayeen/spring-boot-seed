@@ -13,13 +13,15 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 /**
  * Created by kawnayeen on 1/19/17.
  */
-public class AccountResource  extends ResourceSupport{
+public class AccountResource extends ResourceSupport {
     private final String username;
     private final List<ApplicationResource> applicationList;
 
-    public AccountResource(Account account){
+    public AccountResource(Account account) {
         this.username = account.getUsername();
-        this.applicationList = account.getApplications().stream().map(ApplicationResource::new).collect(Collectors.toList());
+        this.applicationList = account.getApplications()
+                .stream()
+                .map(ApplicationResource::new).collect(Collectors.toList());
         add(linkTo(methodOn(LoggingController.class)
                 .getAccountDetails(null))
                 .withSelfRel());

@@ -1,19 +1,18 @@
 package com.kawnayeen.logger.model;
 
 import com.kawnayeen.logger.model.entity.Account;
-import com.kawnayeen.logger.model.entity.Log;
-import com.kawnayeen.logger.model.entity.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * Created by kawnayeen on 1/2/17.
  */
-public class LoggerUser extends Account implements UserDetails{
+public class LoggerUser extends Account implements UserDetails {
 
     Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
     boolean tokenAuthenticated;
@@ -31,17 +30,18 @@ public class LoggerUser extends Account implements UserDetails{
         return accessToken;
     }
 
-    public LoggerUser(Account account, String token){
+    public LoggerUser(Account account, String token) {
         super(account);
         this.initializeGrantedAuthority();
         this.tokenAuthenticated = true;
         this.accessToken = token;
     }
 
-    private void initializeGrantedAuthority(){
-        for (Role role:getRoles()){
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getCode()));
-        }
+    private void initializeGrantedAuthority() {
+        grantedAuthorities = getRoles()
+                .stream()
+                .map(e -> new SimpleGrantedAuthority(e.getCode()))
+                .collect(Collectors.toList());
     }
 
     @Override
